@@ -9,19 +9,37 @@ import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
 public class LoginController {
+    @FXML
+    private Button openRegister;
 
     @FXML
-    private Button logintoMain;
+    private Button openLogin;
 
     @FXML
     private Stage stage;
 
     @FXML
-    void logintoMainAction(ActionEvent event) {
+    void openLoginAction(ActionEvent event) {
+
         try {
-            stage = (Stage) logintoMain.getScene().getWindow();
+            stage = (Stage) openLogin.getScene().getWindow();
             System.out.println(stage);
-            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (Exception e) {
+            System.out.println("File Not Found >>" + e);
+            e.printStackTrace();
+        }
+
+    }
+
+    @FXML
+    void openRegisterAction(ActionEvent event) {
+        try {
+            stage = (Stage) openRegister.getScene().getWindow();
+            System.out.println(stage);
+            Parent root = FXMLLoader.load(getClass().getResource("Register.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
         } catch (Exception e) {
