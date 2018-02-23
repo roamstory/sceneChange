@@ -76,7 +76,7 @@
             </GridPane>
             <JFXTextField alignment="BOTTOM_RIGHT" layoutX="27.0" layoutY="206.0" prefHeight="44.0" prefWidth="225.0" promptText="쿠폰 적립 수 입력" />
             <JFXButton fx:id="logintoMain" layoutX="14.0" layoutY="15.0" onAction="#logintoMainAction" prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="Back" textFill="WHITE" />
-            <JFXButton layoutX="187.0" layoutY="15.0" prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="선물함" textFill="WHITE" />
+            <JFXButton fx:id="openPresent" onAction="#openPresentAction" layoutX="187.0" layoutY="15.0" prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="선물함" textFill="WHITE" />
          </children>
       </Pane>
    </children>

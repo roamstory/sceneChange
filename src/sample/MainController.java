@@ -17,6 +17,9 @@ public class MainController extends SocketConnect {
     private Button logintoMain;
 
     @FXML
+    private Button openPresent;
+
+    @FXML
     private Stage stage;
 
     @FXML
@@ -34,6 +37,20 @@ public class MainController extends SocketConnect {
                 System.out.println("File Not Found >>" + e);
                 e.printStackTrace();
             }
+    }
+
+    @FXML
+    void openPresentAction(ActionEvent event) {
+        try {
+            stage = (Stage) openPresent.getScene().getWindow();
+            System.out.println(stage);
+            Parent root = FXMLLoader.load(getClass().getResource("Present.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+        } catch (Exception e) {
+            System.out.println("File Not Found >>" + e);
+            e.printStackTrace();
+        }
     }
 
 }

@@ -8,7 +8,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.stage.Stage;
 
-public class RegisterController {
+public class PresentController {
 
     @FXML
     private Button RegistertoMain;
@@ -21,7 +21,7 @@ public class RegisterController {
         try {
             stage = (Stage) RegistertoMain.getScene().getWindow();
             System.out.println(stage);
-            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
             Scene scene = new Scene(root);
             stage.setScene(scene);
         } catch (Exception e) {
