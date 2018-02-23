@@ -1,5 +1,8 @@
 package sample;
 
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -8,6 +11,7 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.net.URISyntaxException;
 
 public class Login extends Application {
 
@@ -27,10 +31,11 @@ public class Login extends Application {
 //    }
 
     Stage stage;
+    SocketConnect socketConnect = new SocketConnect();
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-
+        socketConnect.socketConnect();
         this.stage = primaryStage;
         mainWindow();
     }
@@ -55,7 +60,6 @@ public class Login extends Application {
         }
 
     }
-
 
     public static void main(String[] args) {
         launch(args);

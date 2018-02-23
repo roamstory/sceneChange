@@ -24,10 +24,10 @@
                </font>
             </Label>
             <Label alignment="CENTER" layoutX="41.0" layoutY="96.0" prefHeight="17.0" prefWidth="165.0" text="WishWide" />
-            <JFXTextField focusColor="#ed07ad" labelFloat="true" layoutX="27.0" layoutY="172.0" prefHeight="27.0" prefWidth="195.0" promptText="Username" />
+            <JFXTextField fx:id="username" focusColor="#ed07ad" labelFloat="true" layoutX="27.0" layoutY="172.0" prefHeight="27.0" prefWidth="195.0" promptText="Username" />
             <JFXButton fx:id="openLogin" onAction="#openLoginAction" buttonType="RAISED" layoutX="71.0" layoutY="295.0" prefHeight="43.0" prefWidth="105.0" ripplerFill="#f8f5f7" style="-fx-background-color: #ed07ad; -fx-background-radius: 50px;" text="로그인" textFill="WHITE" />
             <Label alignment="CENTER" layoutX="43.0" layoutY="367.0" prefHeight="27.0" prefWidth="165.0" text="Forget password" />
-            <JFXPasswordField focusColor="#ed07ad" labelFloat="true" layoutX="27.0" layoutY="227.0" prefHeight="27.0" prefWidth="195.0" promptText="Password" />
+            <JFXPasswordField fx:id="userpassword" focusColor="#ed07ad" labelFloat="true" layoutX="27.0" layoutY="227.0" prefHeight="27.0" prefWidth="195.0" promptText="Password" />
          </children>
       </Pane>
    </children>
