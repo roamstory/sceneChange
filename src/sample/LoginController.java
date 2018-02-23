@@ -22,7 +22,10 @@ import org.json.JSONObject;
 import java.io.IOException;
 import java.time.LocalDate;
 
-public class LoginController  extends SocketConnect  {
+public class LoginController extends SocketConnect {
+
+    @FXML
+    private AnchorPane pane;
 
     @FXML
     private Button openRegister;
@@ -39,10 +42,30 @@ public class LoginController  extends SocketConnect  {
     @FXML
     private JFXPasswordField userpassword;
 
+    int interVal1 = 0;
 
+    void test() {
+        System.out.println("eventHere");
+        Platform.runLater(()-> {
+                    try {
+                        System.out.println(">>>>>stage is2 " + stage);
+                        Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
+                        Scene scene = new Scene(root);
+                        scene.windowProperty();
+                        stage.setScene(scene);
+                    } catch (IOException e) {
+                        System.out.println(e);
+                        System.out.println("failed");
+                    }
+                });
+    }
 
     @FXML
     void openLoginAction(ActionEvent event) {
+        interVal1++;
+        System.out.println("interVal1 >>>> " + interVal1);
+        System.out.println(">>>>>stage is0 " + (Stage) openLogin.getScene().getWindow());
+        stage = (Stage) openLogin.getScene().getWindow();
 
                     String name = username.getText();
                     System.out.println(name);
@@ -60,44 +83,9 @@ public class LoginController  extends SocketConnect  {
                     }
 
                     mSocket.emit("Login", loginData);
-                    Emitter.Listener loginVal = new Emitter.Listener() {
-
-                        @Override
-                        public void call(final Object... args) {
-                            String data = (String)args[0];
-                            System.out.println("Data :::" + data);
-
-                            if(data.equals("ok")) {
-                                Platform.runLater(()-> {
-                                    try {
-                                        stage = (Stage) openLogin.getScene().getWindow();
-                                        System.out.println(">>>>>stage is " + stage);
-                                        if (!stage.equals(null)) {
-                                            Parent root = FXMLLoader.load(getClass().getResource("Main.fxml"));
-                                            Scene scene = new Scene(root);
-                                            stage.setScene(scene);
-                                        }
-                                    } catch (IOException e) {
-                                        System.out.println("failed");
-                                    }
-                                });
-                            } else {
-                                System.out.println("fail");
-                            }
-
-                        }
-                    };
-
-                    mSocket.on("loginVal", loginVal);
-
-
 
     }
 
-    void mainTogo() {
-        System.out.println("Here");
-
-    }
     @FXML
     void openRegisterAction(ActionEvent event) {
         try {
