@@ -13,7 +13,7 @@ import javafx.stage.Stage;
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-public class Login extends Application {
+public class Login extends Application  {
 
 //    @Override
 //    public void start(Stage primaryStage) {
@@ -35,7 +35,7 @@ public class Login extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        socketConnect.socketConnect();
+
         this.stage = primaryStage;
         mainWindow();
     }
@@ -43,12 +43,16 @@ public class Login extends Application {
     public void mainWindow() {
 
         try {
+            FXMLLoader loader;
+            if(!socketConnect.DEVICE_NAME.equals("")) {
 
-            FXMLLoader loader =  new FXMLLoader(Login.class.getResource("Login.fxml"));
+                loader =  new FXMLLoader(Login.class.getResource("Login.fxml"));
+            } else {
+                loader =  new FXMLLoader(Login.class.getResource("AdminLogin.fxml"));
+            }
             AnchorPane pane = loader.load();
             Scene scene = new Scene(pane);
             scene.getStylesheets().addAll(Login.class.getResource("Login.css").toExternalForm());
-
             stage.setResizable(true);
 //          stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("signin");
@@ -62,6 +66,8 @@ public class Login extends Application {
     }
 
     public static void main(String[] args) {
+        SocketConnect socketConnect = new SocketConnect();
+        socketConnect.socketConnect();
         launch(args);
     }
 }
