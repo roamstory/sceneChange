@@ -52,7 +52,7 @@ public class Login extends Application  {
             }
             AnchorPane pane = loader.load();
             Scene scene = new Scene(pane);
-            scene.getStylesheets().addAll(Login.class.getResource("Login.css").toExternalForm());
+            scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
             stage.setResizable(true);
 //          stage.initStyle(StageStyle.UNDECORATED);
             stage.setTitle("signin");

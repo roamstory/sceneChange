@@ -27,9 +27,6 @@ import java.time.LocalDate;
 public class LoginController extends SocketConnect {
 
     @FXML
-    private AnchorPane pane;
-
-    @FXML
     private Button openRegister;
 
     @FXML
@@ -73,13 +70,10 @@ public class LoginController extends SocketConnect {
                             if(data.equals("ok")) {
                                 Platform.runLater(()-> {
                                             try {
-
                                                 Stage stage = new Stage();
                                                 stage = (Stage) openLogin.getScene().getWindow();
-                                                FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+                                                FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerSearch.fxml"));
                                                 Parent root = loader.load();
-                                                MainController mainController = loader.<MainController>getController();
-                                                mainController.setData(loginData);
                                                 Scene scene = new Scene(root);
                                                 stage.setScene(scene);
                                             } catch (IOException e) {

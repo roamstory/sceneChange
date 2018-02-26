@@ -66,20 +66,25 @@ public class AdminLoginController extends SocketConnect {
                     mSocket.emit("adminLogin", loginData, new Ack() {
                         @Override
                         public void call(Object... args) {
-                            JSONObject obj = (JSONObject)args[0];
-
-                            String data = "ok";
-                            if(data.equals("ok")) {
+                            JSONObject data = (JSONObject)args[0];
+                            String requestVal = "";
+                            try {
+                                System.out.println(data);
+                                requestVal = data.getString("requestVal");
+                                System.out.println("-----------------------");
+                                System.out.println("Data :::" + data.getString("requestVal"));
+                                System.out.println("-----------------------");
+                            } catch (JSONException e) {
+                                System.out.println(e);
+                            }
+                            if(requestVal.equals("1")) {
                                 Platform.runLater(()-> {
                                             try {
                                                 Stage stage = new Stage();
                                                 stage = (Stage) openLogin.getScene().getWindow();
-                                                FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+                                                FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerSearch.fxml"));
                                                 Parent root = loader.load();
-                                                MainController mainController = loader.<MainController>getController();
-                                                mainController.setData(obj);
                                                 Scene scene = new Scene(root);
-                                                scene.windowProperty();
                                                 stage.setScene(scene);
                                             } catch (IOException e) {
                                                 System.out.println(e);

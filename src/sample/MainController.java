@@ -18,7 +18,7 @@ import java.io.IOException;
 public class MainController extends SocketConnect {
 
     @FXML
-    private Button logintoMain;
+    private Button searchCustomertoMain;
 
     @FXML
     private Button openPresent;
@@ -41,48 +41,44 @@ public class MainController extends SocketConnect {
     @FXML
     private JFXTextField stampAllCount;
 
-    private JSONObject CustomeData;
+    private JSONObject CustomerData;
 
-    void setData(JSONObject CustomeData) {
-        System.out.println("CustomeData" + CustomeData);
+    void setData(JSONObject CustomerData) {
+        System.out.println("CustomerData" + CustomerData);
 
         try {
-            birthday.setText(CustomeData.getString("birthday"));
-            stampCount.setText(CustomeData.getString("stampCount")+"개");
-            stampAllCount.setText(CustomeData.getString("stampAllCount")+"개");
-            phone.setText(CustomeData.getString("phone"));
-            name.setText(CustomeData.getString("name"));
+            birthday.setText(CustomerData.getString("birthday"));
+            stampCount.setText(CustomerData.getString("stampCount")+"개");
+            stampAllCount.setText(CustomerData.getString("stampAllCount")+"개");
+            phone.setText(CustomerData.getString("phone"));
+            name.setText(CustomerData.getString("name"));
         } catch (JSONException e) {
 
         }
 
     }
+
     @FXML
-    void logintoMainAction(ActionEvent event) {
+    void searchCustomertoMainAction(ActionEvent event) {
 
         try {
-                Platform.runLater(()-> {
-                    try {
-                        stage = (Stage) logintoMain.getScene().getWindow();
-                        System.out.println("mainStage ::" + stage);
-                        System.out.println(DEVICE_NAME);
-                        Parent root;
-                        if(!DEVICE_NAME.equals("")) {
-                            root = FXMLLoader.load(getClass().getResource("Login.fxml"));
-                        } else {
-                            root = FXMLLoader.load(getClass().getResource("AdminLogin.fxml"));
-                        }
-                        Scene scene = new Scene(root);
-                        scene.getStylesheets().addAll(Login.class.getResource("Login.css").toExternalForm());
-                        stage.setScene(scene);
-                    } catch(Exception e) {
-                        System.out.println(e);
-                    }
-                });
-            } catch (Exception e) {
-                System.out.println("File Not Found >>" + e);
-                e.printStackTrace();
-            }
+            Platform.runLater(()-> {
+                try {
+                    stage = (Stage) searchCustomertoMain.getScene().getWindow();
+                    System.out.println("mainStage ::" + stage);
+                    System.out.println(DEVICE_NAME);
+                    Parent root = FXMLLoader.load(getClass().getResource("CustomerSearch.fxml"));
+                    Scene scene = new Scene(root);
+                    scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
+                    stage.setScene(scene);
+                } catch(Exception e) {
+                    System.out.println(e);
+                }
+            });
+        } catch (Exception e) {
+            System.out.println("File Not Found >>" + e);
+            e.printStackTrace();
+        }
     }
 
     @FXML
