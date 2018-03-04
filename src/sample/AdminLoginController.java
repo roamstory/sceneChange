@@ -51,28 +51,34 @@ public class AdminLoginController extends SocketConnect {
                     JSONObject loginData = new JSONObject();
 
                     try {
-                        loginData.put("deviceId", "log");
+                        loginData.put("deviceId", "WW_DI4");
                         loginData.put("id", name);
                         loginData.put("password", password);
                         if (DEVICE_NAME.equals("")) {
                             DEVICE_NAME = userDeviceId.getText();
                         }
                         loginData.put("DEVICE_NAME", DEVICE_NAME);
-                        System.out.println("DEVICE_NAME ::" + DEVICE_NAME);
                     } catch (JSONException jsonE) {
                         jsonE.printStackTrace();
                     }
+                    System.out.println(loginData);
+                    mSocket.emit("cm", loginData, new Ack() {
+                        @Override
+                        public void call(Object... objects) {
 
-                    mSocket.emit("adminLogin", loginData, new Ack() {
+                        }
+                    });
+
+                    mSocket.emit("loginDeviceInsData", loginData, new Ack() {
                         @Override
                         public void call(Object... args) {
                             JSONObject data = (JSONObject)args[0];
                             String requestVal = "";
                             try {
                                 System.out.println(data);
-                                requestVal = data.getString("requestVal");
+                                requestVal = data.getString("responseCode");
                                 System.out.println("-----------------------");
-                                System.out.println("Data :::" + data.getString("requestVal"));
+                                System.out.println("Data :::" + data.getString("responseCode"));
                                 System.out.println("-----------------------");
                             } catch (JSONException e) {
                                 System.out.println(e);

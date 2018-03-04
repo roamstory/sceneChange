@@ -21,24 +21,23 @@
 <!--</children>-->
 <!--</AnchorPane>-->
 
-<AnchorPane id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="300.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminLoginController">
+<AnchorPane id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminLoginController">
    <children>
-      <Pane layoutX="25.0" layoutY="35.0" prefHeight="463.0" prefWidth="250.0" style="-fx-background-color: #fff; -fx-background-radius: 40px;">
+      <Pane layoutX="20.0" layoutY="34.0" prefHeight="520.0" prefWidth="360.0" style="-fx-background-color: #fff; -fx-background-radius: 40px;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <effect>
             <DropShadow color="#9e9e9e" />
          </effect>
          <children>
-            <Label layoutX="78.0" layoutY="48.0" text="로그인">
+            <Label layoutX="84.0" layoutY="55.0" text="관리자 로그인">
                <font>
                   <Font size="30.0" />
                </font>
             </Label>
-            <Label alignment="CENTER" layoutX="41.0" layoutY="96.0" prefHeight="17.0" prefWidth="165.0" text="WishWide" />
-            <JFXTextField fx:id="username" focusColor="#ed07ad" labelFloat="true" layoutX="27.0" layoutY="172.0" prefHeight="27.0" prefWidth="195.0" promptText="Username" />
-            <JFXButton fx:id="openLogin" buttonType="RAISED" layoutX="71.0" layoutY="355.0" onAction="#openLoginAction" prefHeight="43.0" prefWidth="105.0" ripplerFill="#f8f5f7" style="-fx-background-color: #ed07ad; -fx-background-radius: 50px;" text="로그인" textFill="WHITE" />
-            <Label alignment="CENTER" layoutX="41.0" layoutY="410.0" prefHeight="27.0" prefWidth="165.0" text="Forget password" />
-            <JFXPasswordField fx:id="userpassword" focusColor="#ed07ad" labelFloat="true" layoutX="27.0" layoutY="227.0" prefHeight="27.0" prefWidth="195.0" promptText="Password" />
-            <JFXTextField fx:id="userDeviceId" focusColor="#ed07ad" labelFloat="true" layoutX="28.0" layoutY="279.0" prefHeight="27.0" prefWidth="195.0" promptText="DeviceId" />
+            <Label alignment="CENTER" layoutX="96.0" layoutY="98.0" prefHeight="17.0" prefWidth="165.0" text="WishWide" />
+            <JFXTextField fx:id="username" focusColor="#ed07ad" labelFloat="true" layoutX="82.0" layoutY="174.0" prefHeight="27.0" prefWidth="195.0" promptText="Username" />
+            <JFXButton fx:id="openLogin" buttonType="RAISED" layoutX="126.0" layoutY="357.0" onAction="#openLoginAction" prefHeight="43.0" prefWidth="105.0" ripplerFill="#f8f5f7" style="-fx-background-color: #ed07ad; -fx-background-radius: 50px;" text="로그인" textFill="WHITE" />
+            <JFXPasswordField fx:id="userpassword" focusColor="#ed07ad" labelFloat="true" layoutX="82.0" layoutY="229.0" prefHeight="27.0" prefWidth="195.0" promptText="Password" />
+            <JFXTextField fx:id="userDeviceId" focusColor="#ed07ad" labelFloat="true" layoutX="83.0" layoutY="281.0" prefHeight="27.0" prefWidth="195.0" promptText="DeviceId" />
          </children>
       </Pane>
    </children>

@@ -1,26 +1,68 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.control.TableColumn?>
 <?import javafx.scene.control.TableView?>
 <?import javafx.scene.effect.DropShadow?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.text.Font?>
 
-<AnchorPane id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="533.0" prefWidth="300.0" stylesheets="@Platform.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PresentController">
-   <Pane layoutX="14.0" layoutY="20.0" prefHeight="494.0" prefWidth="272.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;">
+<AnchorPane id="presentPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" stylesheets="@Platform.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.PresentController">
+   <Pane layoutX="20.0" layoutY="34.0" prefHeight="520.0" prefWidth="360.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;" AnchorPane.bottomAnchor="20.0" AnchorPane.topAnchor="20.0">
    <effect>
       <DropShadow color="#9e9e9e" />
    </effect>
    <children>
-      <TableView fx:id="tableView" layoutX="14.0" layoutY="76.0" prefHeight="342.0" prefWidth="244.0">
-         <columns>
-            <TableColumn editable="false" prefWidth="103.0" />
-            <TableColumn editable="false" prefWidth="186.0" />
-         </columns>
-      </TableView>
-      <JFXButton fx:id="searchCustomertoMain" layoutX="14.0" layoutY="15.0"  prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="뒤로" textFill="WHITE" />
-      <JFXButton fx:id="openPresent" layoutX="187.0" layoutY="15.0"  prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="선물함" textFill="WHITE" />
+      <JFXButton fx:id="customertoMain" onAction="#customertoMainAction" layoutX="14.0" layoutY="15.0" prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="뒤로" textFill="WHITE" />
+         <SplitPane dividerPositions="0.6741573033707865" layoutX="33.0" layoutY="89.0" orientation="VERTICAL" prefHeight="447.0" prefWidth="295.0">
+           <items>
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0" SplitPane.resizableWithParent="false">
+                  <children>
+                     <TableView fx:id="tableView" layoutX="7.0" layoutY="3.0" prefHeight="272.0" prefWidth="293.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                       <columns>
+                         <TableColumn prefWidth="83.0" resizable="false" text="타입" />
+                         <TableColumn prefWidth="209.0" resizable="false" text="선물명" />
+                       </columns>
+                     </TableView>
+                  </children>
+               </AnchorPane>
+             <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="367.0" prefWidth="293.0" SplitPane.resizableWithParent="false">
+                  <children>
+                     <GridPane layoutX="1.0" layoutY="-1.0" prefHeight="77.0" prefWidth="295.0">
+                       <columnConstraints>
+                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="143.0" minWidth="10.0" prefWidth="67.0" />
+                         <ColumnConstraints hgrow="SOMETIMES" maxWidth="228.0" minWidth="10.0" prefWidth="228.0" />
+                       </columnConstraints>
+                       <rowConstraints>
+                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                         <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                       </rowConstraints>
+                        <children>
+                           <Label text="선물명:">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Label>
+                           <Label text="   기간:" GridPane.rowIndex="1">
+                              <font>
+                                 <Font size="18.0" />
+                              </font>
+                           </Label>
+                           <Label text="Label" GridPane.columnIndex="1" />
+                           <Label text="Label" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                        </children>
+                     </GridPane>
+                     <JFXButton fx:id="insertUse" layoutX="110.0" layoutY="88.0" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="사용" textFill="WHITE" />
+                  </children>
+               </AnchorPane>
+           </items>
+         </SplitPane>
    </children>
    </Pane>
 </AnchorPane>

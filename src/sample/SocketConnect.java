@@ -39,7 +39,6 @@ public class SocketConnect {
         @Override
         public void call(Object... objects) {
             System.out.println("Log");
-            mSocket.emit("join" , "log");
         }
     };
 
