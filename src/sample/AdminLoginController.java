@@ -14,7 +14,15 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 import org.json.JSONException;
 import org.json.JSONObject;
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
 
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.TransformerFactory;
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.stream.StreamResult;
+import java.io.File;
 import java.io.IOException;
 
 public class AdminLoginController extends SocketConnect {
@@ -61,13 +69,6 @@ public class AdminLoginController extends SocketConnect {
                     } catch (JSONException jsonE) {
                         jsonE.printStackTrace();
                     }
-                    System.out.println(loginData);
-                    mSocket.emit("cm", loginData, new Ack() {
-                        @Override
-                        public void call(Object... objects) {
-
-                        }
-                    });
 
                     mSocket.emit("loginDeviceInsData", loginData, new Ack() {
                         @Override
@@ -84,6 +85,35 @@ public class AdminLoginController extends SocketConnect {
                                 System.out.println(e);
                             }
                             if(requestVal.equals("1")) {
+                                try {
+                                    Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+                                    Node root = document.createElement("Elinmedia");
+                                    document.appendChild(root);
+                                    {
+                                        Element people1 = document.createElement("wishwide");
+                                        people1.setAttribute("wideManageId", data.getString("wideManagerId"));
+                                        people1.setAttribute("wideDeviceType", "POS");
+                                        root.appendChild(people1);
+                                        {
+                                            Element mallSocketId = document.createElement("mallSocketId");
+                                            mallSocketId.appendChild(document.createTextNode(data.getString("mallSocketId")));
+                                            people1.appendChild(mallSocketId);
+                                        }
+                                        {
+                                            Element deviceId = document.createElement("deviceId");
+                                            deviceId.appendChild(document.createTextNode(data.getString("deviceId")));
+                                            people1.appendChild(deviceId);
+                                        }
+                                    }
+                                    DOMSource xmlDOM = new DOMSource(document);
+                                    StreamResult xmlFile = new StreamResult(new File("deviceInfo.xml"));
+                                    TransformerFactory.newInstance().newTransformer().transform(xmlDOM, xmlFile);
+
+                                } catch (Exception e) {
+                                    System.out.println(e);
+                                }
+
+
                                 Platform.runLater(()-> {
                                             try {
                                                 Stage stage = new Stage();
