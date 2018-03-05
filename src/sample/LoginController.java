@@ -60,7 +60,7 @@ public class LoginController extends SocketConnect {
                         jsonE.printStackTrace();
                     }
 
-                    mSocket.emit("Login", loginData, new Ack() {
+                    mSocket.emit("loginDataCheck", loginData, new Ack() {
                         @Override
                         public void call(Object... args) {
                             String data = (String)args[0];

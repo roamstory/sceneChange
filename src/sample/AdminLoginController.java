@@ -134,7 +134,6 @@ public class AdminLoginController extends SocketConnect {
                             }
                         }
                     });
-
     }
 
     @FXML
