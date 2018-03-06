@@ -90,19 +90,32 @@ public class AdminLoginController extends SocketConnect {
                                     Node root = document.createElement("Elinmedia");
                                     document.appendChild(root);
                                     {
-                                        Element people1 = document.createElement("wishwide");
-                                        people1.setAttribute("wideManageId", data.getString("wideManagerId"));
-                                        people1.setAttribute("wideDeviceType", "POS");
-                                        root.appendChild(people1);
+                                        Element device = document.createElement("wishwide");
+                                        root.appendChild(device);
                                         {
                                             Element mallSocketId = document.createElement("mallSocketId");
                                             mallSocketId.appendChild(document.createTextNode(data.getString("mallSocketId")));
-                                            people1.appendChild(mallSocketId);
+                                            device.appendChild(mallSocketId);
                                         }
                                         {
                                             Element deviceId = document.createElement("deviceId");
                                             deviceId.appendChild(document.createTextNode(data.getString("deviceId")));
-                                            people1.appendChild(deviceId);
+                                            device.appendChild(deviceId);
+                                        }
+                                        {
+                                            Element deviceId = document.createElement("wideManagerId");
+                                            deviceId.appendChild(document.createTextNode(data.getString("wideManagerId")));
+                                            device.appendChild(deviceId);
+                                        }
+                                        {
+                                            Element deviceId = document.createElement("wideManagerPassword");
+                                            deviceId.appendChild(document.createTextNode(password));
+                                            device.appendChild(deviceId);
+                                        }
+                                        {
+                                            Element deviceId = document.createElement("wideDeviceType");
+                                            deviceId.appendChild(document.createTextNode("POS"));
+                                            device.appendChild(deviceId);
                                         }
                                     }
                                     DOMSource xmlDOM = new DOMSource(document);

@@ -1,7 +1,1 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<Elinmedia>
-    <wishwide wideDeviceType="POS" wideManageId="gupnechicken">
-        <mallSocketId>Gt9nmfs1</mallSocketId>
-        <deviceId>WW_DI4</deviceId>
-    </wishwide>
-</Elinmedia>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><Elinmedia><wishwide><mallSocketId>Gt9nmfs1</mallSocketId><deviceId>WW_DI4</deviceId><wideManagerId>gupnechicken</wideManagerId><wideManagerPassword>duqEjr0</wideManagerPassword><wideDeviceType>POS</wideDeviceType></wishwide></Elinmedia>
