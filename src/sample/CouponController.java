@@ -1,6 +1,5 @@
 package sample;
 
-import com.jfoenix.controls.JFXButton;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -12,18 +11,18 @@ import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.*;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.stage.Stage;
-import org.json.JSONObject;
 
-import javax.print.DocFlavor;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class PresentController extends SocketConnect implements Initializable {
+public class CouponController extends SocketConnect implements Initializable {
 
     DeviceInfoXmlParse deviceInfoXmlParse = new DeviceInfoXmlParse();
 
@@ -31,14 +30,14 @@ public class PresentController extends SocketConnect implements Initializable {
 
     CustomerVO customerVO = new CustomerVO();
 
-    ObservableList<CustomerGiftVO> customerGiftList = FXCollections.observableArrayList();
+    ObservableList<CustomerCouponVO> customerCouponList = FXCollections.observableArrayList();
 
-    @FXML private TableView<CustomerGiftVO> tableView;
+    @FXML private TableView<CustomerCouponVO> tableView;
     @FXML private ImageView imageView;
     @FXML private Button maintoPresent;
     @FXML private Stage stage;
-    @FXML private Label presentName;
-    @FXML private Label presentPeriod;
+    @FXML private Label couponName;
+    @FXML private Label couponPeriod;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -47,9 +46,9 @@ public class PresentController extends SocketConnect implements Initializable {
 
     public void handleBtnOkAction(ActionEvent e) {
 
-        CustomerGiftVO customerGiftVO = tableView.getSelectionModel().getSelectedItem();
-        System.out.println("TableView 스마트폰: " + customerGiftVO.getGiftProductName());
-        System.out.println("TableView 이미지: " + customerGiftVO.getGiftFinishDate());
+        CustomerCouponVO customerCouponVO = tableView.getSelectionModel().getSelectedItem();
+        System.out.println("TableView 스마트폰: " + customerCouponVO.getCoupon_title());
+        System.out.println("TableView 이미지: " + customerCouponVO.getCustomer_couponproduct_use_date());
     }
 
     @FXML
@@ -89,9 +88,9 @@ public class PresentController extends SocketConnect implements Initializable {
         System.out.println(this.customerVO.toString());
     }
 
-    public void setCustomerGiftList(ObservableList<CustomerGiftVO> customerGiftList) {
-        this.customerGiftList = customerGiftList;
-        System.out.println("customerGiftList>????>" + customerGiftList);
+    public void setCustomerCouponList(ObservableList<CustomerCouponVO> customerCouponList) {
+        this.customerCouponList = customerCouponList;
+        System.out.println("customerCouponList>????>" + customerCouponList);
         TableColumn tcSmartPhone = tableView.getColumns().get(0);
         tcSmartPhone.setCellValueFactory(
                 new PropertyValueFactory("type")
@@ -104,15 +103,15 @@ public class PresentController extends SocketConnect implements Initializable {
         );
         tcImage.setStyle("-fx-alignment: CENTER;");
 
-        tableView.setItems(customerGiftList);
-        System.out.println("customerGiftList>>>>" + customerGiftList);
+        tableView.setItems(customerCouponList);
+        System.out.println("customerCouponList>>>>" + customerCouponList);
 
-        tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CustomerGiftVO>() {
+        tableView.getSelectionModel().selectedItemProperty().addListener(new ChangeListener<CustomerCouponVO>() {
             @Override
-            public void changed(ObservableValue<? extends CustomerGiftVO> observable, CustomerGiftVO oldValue, CustomerGiftVO newValue) {
+            public void changed(ObservableValue<? extends CustomerCouponVO> observable, CustomerCouponVO oldValue, CustomerCouponVO newValue) {
                 if(newValue!=null) {
-                    presentName.setText(newValue.getGiftProductName());
-                    presentPeriod.setText(newValue.getGiftBeginDate() + " ~ " + newValue.getGiftFinishDate());
+                    couponName.setText(newValue.getCoupon_title());
+                    couponPeriod.setText(newValue.getCustomer_couponproduct_begin_date() + " ~ " + newValue.getCustomer_couponproduct_finish_date());
                 }
             }
         });

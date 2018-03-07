@@ -1,5 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.geometry.*?>
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXTextField?>
 <?import javafx.scene.control.Label?>
@@ -12,42 +20,33 @@
 <?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" stylesheets="@Platform.css" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
+<AnchorPane id="mainPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" stylesheets="@Platform.css" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.MainController">
    <children>
       <Pane layoutX="20.0" layoutY="34.0" prefHeight="520.0" prefWidth="360.0" style="-fx-background-color: #fff; -fx-background-radius: 10px;" AnchorPane.bottomAnchor="20.0" AnchorPane.topAnchor="20.0">
          <effect>
             <DropShadow color="#9e9e9e" />
          </effect>
          <children>
-            <JFXTextField fx:id="name" alignment="CENTER" editable="false" layoutX="56.0" layoutY="66.0" prefHeight="15.0" prefWidth="125.0" text="박소현">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="birthday" alignment="CENTER" editable="false" layoutX="194.0" layoutY="66.0" prefHeight="27.0" prefWidth="125.0" text="19810613">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXTextField>
-            <Label layoutX="52.0" layoutY="168.0" text="현재 쿠폰 도장 개수 :">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font></Label>
-            <Label layoutX="52.0" layoutY="206.0" text="누적 쿠폰 도장 개수 :">
-               <font>
-                  <Font name="System Bold" size="13.0" />
-               </font>
-            </Label>
-            <JFXTextField fx:id="stampCount" alignment="CENTER" editable="false" layoutX="181.0" layoutY="150.0" prefHeight="27.0" prefWidth="125.0" text="22">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXTextField>
-            <JFXTextField fx:id="stampAllCount" alignment="CENTER" editable="false" layoutX="181.0" layoutY="188.0" prefHeight="27.0" prefWidth="125.0" text="">
-               <font>
-                  <Font size="18.0" />
-               </font>
-            </JFXTextField>
+            <Pane layoutX="13.0" layoutY="201.0" prefHeight="33.0" prefWidth="337.0" style="-fx-background-color: #7eaae4; -fx-background-radius: 10px;">
+               <children>
+                  <Label fx:id="benefitType" layoutX="42.0" layoutY="6.0" text="현재 쿠폰 도장 개수 :">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+                  <Label fx:id="benefitVal" layoutX="223.0" layoutY="5.0" prefHeight="23.0" prefWidth="98.0" text="20개">
+                     <font>
+                        <Font name="System Bold" size="18.0" />
+                     </font>
+                  </Label>
+               </children>
+            </Pane>
+            <Pane layoutX="13.0" layoutY="61.0" prefHeight="83.0" prefWidth="337.0" style="-fx-background-color: #7eaae4; -fx-background-radius: 10px;" />
+            <!--<JFXTextField fx:id="stampAllCount" alignment="CENTER" editable="false" layoutX="181.0" layoutY="188.0" prefHeight="27.0" prefWidth="125.0" text="">-->
+               <!--<font>-->
+                  <!--<Font size="18.0" />-->
+               <!--</font>-->
+            <!--</JFXTextField>-->
             <ImageView fitHeight="35.0" fitWidth="54.0" layoutX="14.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
             <JFXButton layoutX="145.0" layoutY="484.0" prefHeight="35.0" prefWidth="88.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="적립" textFill="WHITE" />
             <GridPane layoutX="77.0" layoutY="297.0" prefHeight="176.0" prefWidth="225.0">
@@ -77,17 +76,53 @@
                   <JFXButton prefHeight="33.0" prefWidth="74.0" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="3" />
                </children>
             </GridPane>
-            <JFXTextField alignment="CENTER" layoutX="88.0" layoutY="236.0" prefHeight="44.0" prefWidth="202.0" promptText="쿠폰 적립 수 입력" text="11">
+            <JFXTextField fx:id="benefitData" alignment="CENTER" layoutX="88.0" layoutY="256.0" prefHeight="29.0" prefWidth="129.0" promptText="쿠폰 적립 수 입력" text="11">
                <font>
                   <Font size="24.0" />
-               </font></JFXTextField>
+               </font>
+               <padding>
+                  <Insets bottom="-10.0" top="-10.0" />
+               </padding></JFXTextField>
             <JFXButton fx:id="searchCustomertoMain" layoutX="14.0" layoutY="15.0" onAction="#searchCustomertoMainAction" prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="뒤로" textFill="WHITE" />
-            <JFXButton fx:id="openPresent" layoutX="267.0" layoutY="15.0" onAction="#openPresentAction" prefHeight="33.0" prefWidth="68.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="선물함" textFill="WHITE" />
-            <JFXTextField fx:id="phone" alignment="CENTER" editable="false" focusColor="#499cc9" layoutX="56.0" layoutY="109.0" prefHeight="33.0" prefWidth="265.0" promptText="01092799218" text="">
+            <JFXButton fx:id="openPresent" layoutX="16.0" layoutY="155.0" onAction="#openPresentAction" prefHeight="33.0" prefWidth="155.0" style="-fx-background-color: #6496d0; -fx-background-radius: 50px;" text="선물함" textFill="WHITE">
+               <font>
+                  <Font size="14.0" />
+               </font></JFXButton>
+            <Label fx:id="name" alignment="CENTER" layoutX="14.0" layoutY="74.0" prefHeight="23.0" prefWidth="110.0" text="박소현">
                <font>
                   <Font size="18.0" />
                </font>
-            </JFXTextField>
+            </Label>
+            <Label fx:id="sex" alignment="CENTER" layoutX="181.0" layoutY="74.0" prefHeight="23.0" prefWidth="46.0" text="(여)">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="birthday" alignment="CENTER" layoutX="225.0" layoutY="74.0" prefHeight="23.0" prefWidth="110.0" text="1996.08.10">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="grade" alignment="CENTER" layoutX="44.0" layoutY="109.0" prefHeight="23.0" prefWidth="54.0" style="-fx-background-color: red;" text="VIP">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="phone" alignment="CENTER" layoutX="187.0" layoutY="112.0" prefHeight="23.0" prefWidth="147.0" text="01092799218">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Label>
+            <Label fx:id="benefitTypeName" layoutX="225.0" layoutY="262.0" text="포인트">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Label>
+            <JFXButton fx:id="openCoupon" layoutX="179.0" layoutY="155.0" onAction="#openCouponAction" prefHeight="33.0" prefWidth="170.0" style="-fx-background-color: #6496d0; -fx-background-radius: 50px;" text="쿠폰함" textFill="WHITE">
+               <font>
+                  <Font name="System Bold" size="14.0" />
+               </font>
+            </JFXButton>
          </children>
       </Pane>
    </children>

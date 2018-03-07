@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import com.jfoenix.controls.*?>
+<?import java.lang.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.effect.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 <?import com.jfoenix.controls.JFXButton?>
 <?import com.jfoenix.controls.JFXPasswordField?>
 <?import com.jfoenix.controls.JFXTextField?>
@@ -21,7 +27,7 @@
 <!--</children>-->
 <!--</AnchorPane>-->
 
-<AnchorPane id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminLoginController">
+<AnchorPane id="rootPane" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" fx:controller="sample.AdminLoginController">
    <children>
       <Pane layoutX="20.0" layoutY="34.0" prefHeight="520.0" prefWidth="360.0" style="-fx-background-color: #fff; -fx-background-radius: 40px;" AnchorPane.bottomAnchor="20.0" AnchorPane.leftAnchor="20.0" AnchorPane.rightAnchor="20.0" AnchorPane.topAnchor="20.0">
          <effect>
@@ -34,10 +40,10 @@
                </font>
             </Label>
             <Label alignment="CENTER" layoutX="96.0" layoutY="98.0" prefHeight="17.0" prefWidth="165.0" text="WishWide" />
-            <JFXTextField fx:id="username" focusColor="#ed07ad" labelFloat="true" layoutX="82.0" layoutY="174.0" prefHeight="27.0" prefWidth="195.0" promptText="Username" />
+            <JFXTextField fx:id="username" focusColor="#ed07ad" labelFloat="true" layoutX="82.0" layoutY="174.0" prefHeight="27.0" prefWidth="195.0" promptText="Username" text="gupnechicken" />
             <JFXButton fx:id="openLogin" buttonType="RAISED" layoutX="126.0" layoutY="357.0" onAction="#openLoginAction" prefHeight="43.0" prefWidth="105.0" ripplerFill="#f8f5f7" style="-fx-background-color: #ed07ad; -fx-background-radius: 50px;" text="로그인" textFill="WHITE" />
-            <JFXPasswordField fx:id="userpassword" focusColor="#ed07ad" labelFloat="true" layoutX="82.0" layoutY="229.0" prefHeight="27.0" prefWidth="195.0" promptText="Password" />
-            <JFXTextField fx:id="userDeviceId" focusColor="#ed07ad" labelFloat="true" layoutX="83.0" layoutY="281.0" prefHeight="27.0" prefWidth="195.0" promptText="DeviceId" />
+            <JFXPasswordField fx:id="userpassword" focusColor="#ed07ad" labelFloat="true" layoutX="82.0" layoutY="229.0" prefHeight="27.0" prefWidth="195.0" promptText="Password" text="1q2w3e4r" />
+            <JFXTextField fx:id="userDeviceId" focusColor="#ed07ad" labelFloat="true" layoutX="83.0" layoutY="281.0" prefHeight="27.0" prefWidth="195.0" promptText="DeviceId" text="WW_DI4" />
          </children>
       </Pane>
    </children>

@@ -12,14 +12,12 @@ import java.net.URISyntaxException;
 
 public class SocketConnect {
 
-    static String DEVICE_NAME = "";
-
     static Socket mSocket;
 
 
     public void socketConnect() {
         try {
-            mSocket = IO.socket("http://localhost:3000");
+            mSocket = IO.socket("http://localhost:5000");
             mSocket.on(Socket.EVENT_CONNECT, onConnect);
             mSocket.on("onNewMessage", onNewMessage);
             mSocket.on("connectedSuccess", connectedSuccess);

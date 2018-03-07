@@ -3,9 +3,6 @@ package sample;
 import com.jfoenix.controls.JFXPasswordField;
 import com.jfoenix.controls.JFXTextField;
 import io.socket.client.Ack;
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -14,17 +11,21 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import netscape.javascript.JSObject;
 import org.json.JSONException;
 import org.json.JSONObject;
-import sun.applet.Main;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.net.URL;
+import java.util.ResourceBundle;
 
-public class LoginController extends SocketConnect {
+public class LoginController extends SocketConnect implements Initializable {
+
+    DeviceInfoXmlParse deviceInfoXmlParse = new DeviceInfoXmlParse();
+
+    StoreVO storeVO = new StoreVO();
+
+    static HanKeyToEngKey hanKeyToEngKey = HanKeyToEngKey.getInstance();
 
     @FXML
     private Button openRegister;
@@ -40,70 +41,76 @@ public class LoginController extends SocketConnect {
 
     int interVal1 = 0;
 
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
+
+    }
+
     @FXML
     void openLoginAction(ActionEvent event) {
         interVal1++;
         System.out.println("interVal1 >>>> " + interVal1);
+        JSONObject loginData = new JSONObject();
+            try {
+                    storeVO = deviceInfoXmlParse.parseXML();
+
                     String name = username.getText();
                     System.out.println(name);
                     String password = userpassword.getText();
-                    System.out.println(password);
+                    System.out.println(hanKeyToEngKey.getHanKeyToEngKey(password));
+                    String deviceId = storeVO.getDeviceId();
+                    System.out.println(deviceId);
 
-                    JSONObject loginData = new JSONObject();
+                    loginData.put("deviceId", deviceId);
+                    loginData.put("id", name);
+                    loginData.put("password", hanKeyToEngKey.getHanKeyToEngKey(password));
+            } catch (Exception e) {
+                    e.printStackTrace();
+            }
 
-                    try {
-                        loginData.put("deviceId", "log");
-                        loginData.put("id", name);
-                        loginData.put("password", password);
-                        loginData.put("DEVICE_NAME", DEVICE_NAME);
-                    } catch (JSONException jsonE) {
-                        jsonE.printStackTrace();
-                    }
 
-                    mSocket.emit("loginDataCheck", loginData, new Ack() {
-                        @Override
-                        public void call(Object... args) {
-                            String data = (String)args[0];
-                            System.out.println("-----------------------");
-                            System.out.println("Data :::" + data);
-                            System.out.println("-----------------------");
-                            if(data.equals("ok")) {
-                                Platform.runLater(()-> {
-                                            try {
-                                                Stage stage = new Stage();
-                                                stage = (Stage) openLogin.getScene().getWindow();
-                                                FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerSearch.fxml"));
-                                                Parent root = loader.load();
-                                                Scene scene = new Scene(root);
-                                                stage.setScene(scene);
-                                            } catch (IOException e) {
-                                                System.out.println(e);
-                                                System.out.println("failed");
-                                            }
-                                            Thread.interrupted();
-                                        }
-                                );
-
-                            } else {
-                                System.out.println("fail");
-                            }
+        mSocket.emit("loginDeviceInsData", loginData, new Ack() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject)args[0];
+                String requestVal = "";
+                try {
+                    requestVal = data.getString("responseCode");
+                    System.out.println("-----------------------");
+                    System.out.println("Data :::" + data);
+                    System.out.println("-----------------------");
+                } catch (JSONException e) {
+                    System.out.println(e);
+                }
+                if(requestVal.equals("1")) {
+                    Platform.runLater(()-> {
+                        try {
+                            Stage stage = new Stage();
+                            stage = (Stage) openLogin.getScene().getWindow();
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerSearch.fxml"));
+                            Parent root = loader.load();
+                            CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
+                            customerSearchController.setStoreVO(storeVO);
+                            Scene scene = new Scene(root);
+                            scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
+                            stage.setScene(scene);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                            System.out.println("failed");
                         }
+                        Thread.interrupted();
                     });
+                } else {
+                    System.out.println("fail");
+                }
+            }
+        });
 
     }
 
-    @FXML
-    void openRegisterAction(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            stage = (Stage) openRegister.getScene().getWindow();
-            System.out.println(stage);
-            Parent root = FXMLLoader.load(getClass().getResource("Register.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-        } catch (Exception e) {
-            System.out.println("File Not Found >>" + e);
-            e.printStackTrace();
-        }
+    public void setStoreVO(StoreVO storeVO) {
+        this.storeVO = storeVO;
+        System.out.println(this.storeVO.toString());
     }
+
 }

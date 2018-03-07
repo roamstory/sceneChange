@@ -5,7 +5,7 @@ import javafx.beans.property.SimpleStringProperty;
 public class Phone {
 	private SimpleStringProperty smartPhone;
 	private SimpleStringProperty image;
-	
+
 	public Phone() {
 		this.smartPhone = new SimpleStringProperty();
 		this.image = new SimpleStringProperty();
@@ -14,7 +14,7 @@ public class Phone {
 		this.smartPhone = new SimpleStringProperty(smartPhone);
 		this.image = new SimpleStringProperty(image);
 	}
-	
+
 	public String getSmartPhone() {
 		return smartPhone.get();
 	}
