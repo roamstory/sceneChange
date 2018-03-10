@@ -53,6 +53,7 @@ public class Login extends Application  {
 
         this.stage = primaryStage;
         mainWindow();
+        //parseXML();
     }
 
     public void mainWindow() {

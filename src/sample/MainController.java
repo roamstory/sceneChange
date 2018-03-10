@@ -79,10 +79,6 @@ public class MainController extends SocketConnect implements Initializable {
 
     private JSONObject CustomerData;
 
-
-
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

@@ -16,8 +16,7 @@ public class SocketConnect {
 
     static Socket mSocket;
 
-    static CustomerSearchController customerSearchController ;
-
+    CustomerSearchController customerSearchController = g;
 
     public void socketConnect() {
         try {
@@ -36,6 +35,7 @@ public class SocketConnect {
     }
 
     static int interVal2 = 0;
+
 
     static Emitter.Listener onConnect = new Emitter.Listener() {
         @Override

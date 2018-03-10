@@ -13,6 +13,7 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -43,12 +44,28 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     @FXML
     private JFXTextField customerNumber;
 
+
     static Emitter.Listener customerInfoResponse = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
             System.out.println(">>>>HEAE");
-         }
+            String phoneNumber = "";
+            try {
+                JSONObject data = (JSONObject)args[0];
+                phoneNumber = data.getString("phoneNumber");
+
+            } catch (Exception e) {
+
+            }
+        }
     };
+
+    static void action2(String phoneNumber) {
+        CustomerSearchController customerSearchController = new CustomerSearchController();
+        customerSearchController.searchCustomerAction2(phoneNumber);
+    }
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -60,6 +77,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         try {
                 Platform.runLater(()-> {
                     try {
+                        Stage stage = new Stage();
                         stage = (Stage) logintoMain.getScene().getWindow();
                         String deviceId = storeVO.getDeviceId();
                         FXMLLoader loader;
@@ -94,7 +112,6 @@ public class CustomerSearchController extends SocketConnect implements Initializ
 
     @FXML
     void searchCustomerAction() {
-
         JSONObject searchCustomerInfo = new JSONObject();
 
         try {
@@ -131,10 +148,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                 } catch (Exception e) {
                     System.out.println(e);
                 }
-
                 if(responseVal.equals("1")) {
-
-
                     Platform.runLater(()-> {
                         try {
                             Stage stage = new Stage();
@@ -147,8 +161,9 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             mainController.setCustomerVO(customerVO);
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
-                        } catch (Exception e) {
-                            System.out.println(e);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                            System.out.println(e.toString());
                             System.out.println("failed");
                         }
                         Thread.interrupted();
@@ -161,6 +176,78 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         });
 
     }
+
+    @FXML
+    void searchCustomerAction2(String phoneNumberInfo) {
+        System.out.println("1번?");
+        JSONObject searchCustomerInfo = new JSONObject();
+
+        try {
+            storeVO = deviceInfoXmlParse.parseXML();
+            System.out.println(phoneNumberInfo + "전화번호는");
+            String phoneNumber = phoneNumberInfo;
+            String wideManagerId = storeVO.getWideManagerId();
+            String mallSocketId = storeVO.getMallSocketId();
+            String deviceId = storeVO.getDeviceId();
+
+            searchCustomerInfo.put("phoneNumber", phoneNumber);
+            searchCustomerInfo.put("wideManagerId", wideManagerId);
+            searchCustomerInfo.put("mallSocketId", mallSocketId);
+            searchCustomerInfo.put("deviceId", deviceId);
+
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
+
+        mSocket.emit("searchCustomer", searchCustomerInfo, new Ack() {
+
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject)args[0];
+
+                String responseVal = "";
+                try {
+                    responseVal = data.getString("responseCode");
+                    System.out.println("-----------------------");
+                    System.out.println("Data :::" + data.getString("responseCode"));
+                    System.out.println("-----------------------");
+
+                    customerVO = customerSet.customerSetVO(data);
+                    System.out.println("customersearch" + customerVO.toString());
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+                if(responseVal.equals("1")) {
+                    Platform.runLater(()-> {
+                        try {
+                            stage = (Stage) customerSearch.getScene().getWindow();
+                            System.out.println(stage + ">>>>>>>>");
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+                            Parent root = loader.load();
+                            MainController mainController = loader.<MainController>getController();
+                            mainController.setStoreVO(storeVO);
+                            mainController.setData(customerVO);
+                            mainController.setCustomerVO(customerVO);
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            System.out.println(e.toString());
+                            System.out.println("failed");
+                        }
+                        Thread.interrupted();
+                    });
+
+                } else {
+                    System.out.println("fail");
+                }
+            }
+        });
+
+    }
+
 
 
     public void setStoreVO(StoreVO storeVO) {
