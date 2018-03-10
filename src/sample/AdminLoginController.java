@@ -87,7 +87,7 @@ public class AdminLoginController extends SocketConnect implements Initializable
                         jsonE.printStackTrace();
                     }
 
-                    mSocket.emit("loginDeviceInsData", loginData, new Ack() {
+                    mSocket.emit("posLoginDeviceInsData", loginData, new Ack() {
                         @Override
                         public void call(Object... args) {
                             JSONObject data = (JSONObject)args[0];
@@ -156,7 +156,11 @@ public class AdminLoginController extends SocketConnect implements Initializable
                 System.out.println("파일삭제 실패");
             }
         }else{
-            System.out.println("파일이 존재하지 않습니다.");
+            try {
+                file.createNewFile();
+            } catch (IOException e) {
+                System.out.println(e);
+            }
         }
 
         try {
@@ -257,6 +261,26 @@ public class AdminLoginController extends SocketConnect implements Initializable
                 {
                     Element deviceId = document.createElement("wideManagerRole");
                     deviceId.appendChild(document.createTextNode(data.getString("wideManagerRole")));
+                    root.appendChild(deviceId);
+                }
+                {
+                    Element deviceId = document.createElement("stampCommonStatusCode");
+                    deviceId.appendChild(document.createTextNode(data.getString("stampCommonStatusCode")));
+                    root.appendChild(deviceId);
+                }
+                {
+                    Element deviceId = document.createElement("pointCommonStatusCode");
+                    deviceId.appendChild(document.createTextNode(data.getString("pointCommonStatusCode")));
+                    root.appendChild(deviceId);
+                }
+                {
+                    Element deviceId = document.createElement("partnerId");
+                    deviceId.appendChild(document.createTextNode(data.getString("partnerId")));
+                    root.appendChild(deviceId);
+                }
+                {
+                    Element deviceId = document.createElement("franchiseId");
+                    deviceId.appendChild(document.createTextNode(data.getString("franchiseId")));
                     root.appendChild(deviceId);
                 }
 

@@ -13,6 +13,7 @@ public class CustomerGiftVO {
     private SimpleStringProperty giftUseDate;
     private SimpleStringProperty giftBeginDate;
     private SimpleStringProperty giftFinishDate;
+    private SimpleStringProperty giftUseYn;
 
 
     public CustomerGiftVO() {
@@ -24,10 +25,11 @@ public class CustomerGiftVO {
         this.giftUseDate = new SimpleStringProperty();
         this.giftBeginDate = new SimpleStringProperty();
         this.giftFinishDate = new SimpleStringProperty();
+        this.giftUseYn = new SimpleStringProperty();
 
     }
     public CustomerGiftVO(String type, String giftNo, String giftProductName, String giftProductImageUrl
-            , int giftUseStatusCode, String giftUseDate, String giftBeginDate, String giftFinishDate) {
+            , int giftUseStatusCode, String giftUseDate, String giftBeginDate, String giftFinishDate, String giftUseYn) {
         this.type = new SimpleStringProperty(type);
         this.giftNo = new SimpleStringProperty(giftNo);
         this.giftProductName = new SimpleStringProperty(giftProductName);
@@ -36,6 +38,7 @@ public class CustomerGiftVO {
         this.giftUseDate = new SimpleStringProperty(giftUseDate);
         this.giftBeginDate = new SimpleStringProperty(giftBeginDate);
         this.giftFinishDate = new SimpleStringProperty(giftFinishDate);
+        this.giftUseYn = new SimpleStringProperty(giftUseYn);
 
     }
 
@@ -133,5 +136,17 @@ public class CustomerGiftVO {
 
     public void setGiftFinishDate(String giftFinishDate) {
         this.giftFinishDate.set(giftFinishDate);
+    }
+
+    public String getGiftUseYn() {
+        return giftUseYn.get();
+    }
+
+    public SimpleStringProperty giftUseYnProperty() {
+        return giftUseYn;
+    }
+
+    public void setGiftUseYn(String giftUseYn) {
+        this.giftUseYn.set(giftUseYn);
     }
 }

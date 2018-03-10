@@ -13,6 +13,7 @@ public class CustomerCouponVO {
     private SimpleStringProperty customer_couponproduct_use_date;
     private SimpleStringProperty customer_couponproduct_begin_date;
     private SimpleStringProperty customer_couponproduct_finish_date;
+    private SimpleStringProperty couponUseYn;
 
 
     public CustomerCouponVO() {
@@ -24,11 +25,12 @@ public class CustomerCouponVO {
         this.customer_couponproduct_use_date = new SimpleStringProperty();
         this.customer_couponproduct_begin_date = new SimpleStringProperty();
         this.customer_couponproduct_finish_date = new SimpleStringProperty();
+        this.couponUseYn = new SimpleStringProperty();
 
     }
     public CustomerCouponVO(String type, String customer_couponproduct_no, String coupon_title, String product_image_url
             , int customer_couponproduct_use_code, String customer_couponproduct_use_date,
-                            String customer_couponproduct_begin_date, String customer_couponproduct_finish_date) {
+                            String customer_couponproduct_begin_date, String customer_couponproduct_finish_date, String couponUseYn) {
         this.type = new SimpleStringProperty(type);
         this.customer_couponproduct_no = new SimpleStringProperty(customer_couponproduct_no);
         this.coupon_title = new SimpleStringProperty(coupon_title);
@@ -37,6 +39,7 @@ public class CustomerCouponVO {
         this.customer_couponproduct_use_date = new SimpleStringProperty(customer_couponproduct_use_date);
         this.customer_couponproduct_begin_date = new SimpleStringProperty(customer_couponproduct_begin_date);
         this.customer_couponproduct_finish_date = new SimpleStringProperty(customer_couponproduct_finish_date);
+        this.couponUseYn = new SimpleStringProperty(couponUseYn);
 
     }
 
@@ -134,5 +137,17 @@ public class CustomerCouponVO {
 
     public void setCustomer_couponproduct_finish_date(String customer_couponproduct_finish_date) {
         this.customer_couponproduct_finish_date.set(customer_couponproduct_finish_date);
+    }
+
+    public String getCouponUseYn() {
+        return couponUseYn.get();
+    }
+
+    public SimpleStringProperty couponUseYnProperty() {
+        return couponUseYn;
+    }
+
+    public void setCouponUseYn(String couponUseYn) {
+        this.couponUseYn.set(couponUseYn);
     }
 }

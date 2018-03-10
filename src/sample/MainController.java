@@ -2,6 +2,7 @@ package sample;
 
 import com.jfoenix.controls.JFXTextField;
 import io.socket.client.Ack;
+import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -76,9 +77,11 @@ public class MainController extends SocketConnect implements Initializable {
     @FXML
     private Label benefitTypeName;
 
-
-
     private JSONObject CustomerData;
+
+
+
+
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {

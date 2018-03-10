@@ -2,6 +2,7 @@ package sample;
 
 import com.jfoenix.controls.JFXTextField;
 import io.socket.client.Ack;
+import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -41,6 +42,13 @@ public class CustomerSearchController extends SocketConnect implements Initializ
 
     @FXML
     private JFXTextField customerNumber;
+
+    static Emitter.Listener customerInfoResponse = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            System.out.println(">>>>HEAE");
+         }
+    };
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -85,7 +93,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     }
 
     @FXML
-    void searchCustomerAction(ActionEvent event) {
+    void searchCustomerAction() {
 
         JSONObject searchCustomerInfo = new JSONObject();
 
@@ -153,6 +161,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         });
 
     }
+
 
     public void setStoreVO(StoreVO storeVO) {
         this.storeVO = storeVO;

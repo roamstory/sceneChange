@@ -7,12 +7,16 @@ import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.scene.Parent;
 import org.json.JSONObject;
+import sun.applet.Main;
 
+import javax.naming.directory.SearchControls;
 import java.net.URISyntaxException;
 
 public class SocketConnect {
 
     static Socket mSocket;
+
+    static CustomerSearchController customerSearchController ;
 
 
     public void socketConnect() {
@@ -21,6 +25,7 @@ public class SocketConnect {
             mSocket.on(Socket.EVENT_CONNECT, onConnect);
             mSocket.on("onNewMessage", onNewMessage);
             mSocket.on("connectedSuccess", connectedSuccess);
+            mSocket.on("customerInfoResponse", customerSearchController.customerInfoResponse);
             System.out.println("connect");
             mSocket.connect();
         } catch (URISyntaxException e) {
@@ -31,7 +36,6 @@ public class SocketConnect {
     }
 
     static int interVal2 = 0;
-
 
     static Emitter.Listener onConnect = new Emitter.Listener() {
         @Override

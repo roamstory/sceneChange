@@ -21,8 +21,9 @@ public class CustomerGiftSet {
             int giftUseStatusCode = giftList.getInt("giftUseStatusCode");
             String giftFinishDate = giftList.getString("giftFinishDate");
             String giftBeginDate = giftList.getString("giftBeginDate");
+            String giftUseYn = giftList.getString("giftUseYn");
 
-            customerGiftList.add(new CustomerGiftVO(type, giftNo, giftProductName, giftProductImageUrl, giftUseStatusCode, giftUseDate, giftBeginDate, giftFinishDate));
+            customerGiftList.add(new CustomerGiftVO(type, giftNo, giftProductName, giftProductImageUrl, giftUseStatusCode, giftUseDate, giftBeginDate, giftFinishDate,giftUseYn));
 
         }
         System.out.println("customerGiftList>>>>>>>>" + customerGiftList);

@@ -93,13 +93,13 @@ public class CouponController extends SocketConnect implements Initializable {
         System.out.println("customerCouponList>????>" + customerCouponList);
         TableColumn tcSmartPhone = tableView.getColumns().get(0);
         tcSmartPhone.setCellValueFactory(
-                new PropertyValueFactory("type")
+                new PropertyValueFactory("coupon_title")
         );
         tcSmartPhone.setStyle("-fx-alignment: CENTER;");
 
         TableColumn tcImage = tableView.getColumns().get(1);
         tcImage.setCellValueFactory(
-                new PropertyValueFactory("giftProductName")
+                new PropertyValueFactory("couponUseYn")
         );
         tcImage.setStyle("-fx-alignment: CENTER;");
 

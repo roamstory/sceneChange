@@ -94,13 +94,13 @@ public class PresentController extends SocketConnect implements Initializable {
         System.out.println("customerGiftList>????>" + customerGiftList);
         TableColumn tcSmartPhone = tableView.getColumns().get(0);
         tcSmartPhone.setCellValueFactory(
-                new PropertyValueFactory("type")
+                new PropertyValueFactory("giftProductName")
         );
         tcSmartPhone.setStyle("-fx-alignment: CENTER;");
 
         TableColumn tcImage = tableView.getColumns().get(1);
         tcImage.setCellValueFactory(
-                new PropertyValueFactory("giftProductName")
+                new PropertyValueFactory("giftUseYn")
         );
         tcImage.setStyle("-fx-alignment: CENTER;");
 

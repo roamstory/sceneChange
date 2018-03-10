@@ -69,7 +69,7 @@ public class LoginController extends SocketConnect implements Initializable {
             }
 
 
-        mSocket.emit("loginDeviceInsData", loginData, new Ack() {
+        mSocket.emit("posLoginDeviceInsData", loginData, new Ack() {
             @Override
             public void call(Object... args) {
                 JSONObject data = (JSONObject)args[0];

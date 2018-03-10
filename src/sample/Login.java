@@ -19,6 +19,7 @@ import javax.xml.xpath.XPath;
 import javax.xml.xpath.XPathConstants;
 import javax.xml.xpath.XPathFactory;
 import java.io.ByteArrayInputStream;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
@@ -52,15 +53,22 @@ public class Login extends Application  {
 
         this.stage = primaryStage;
         mainWindow();
-        //parseXML();
     }
 
     public void mainWindow() {
 
         try {
             FXMLLoader loader;
-            storeVO = deviceInfoXmlParse.parseXML();
-            String deviceId = storeVO.getDeviceId();
+            String deviceId = "";
+
+            File file = new File("deviceInfo.xml");
+
+            if( file.exists() ){
+                storeVO = deviceInfoXmlParse.parseXML();
+                deviceId = storeVO.getDeviceId();
+            }
+
+
             if(!deviceId.equals("")) {
                 loader =  new FXMLLoader(Login.class.getResource("Login.fxml"));
             } else {

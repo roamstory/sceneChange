@@ -21,6 +21,8 @@ public class StoreVO {
     private String wideManagerFinishDate;
     private String contractStatusCode;
     private String wideManagerRole;
+    private String partnerId;
+    private String franchiseId;
 
     public String getMallSocketId() {
         return mallSocketId;
@@ -174,6 +176,22 @@ public class StoreVO {
         this.wideManagerRole = wideManagerRole;
     }
 
+    public String getPartnerId() {
+        return partnerId;
+    }
+
+    public void setPartnerId(String partnerId) {
+        this.partnerId = partnerId;
+    }
+
+    public String getFranchiseId() {
+        return franchiseId;
+    }
+
+    public void setFranchiseId(String franchiseId) {
+        this.franchiseId = franchiseId;
+    }
+
     @Override
     public String toString() {
         return "StoreVO{" +
@@ -196,6 +214,8 @@ public class StoreVO {
                 ", wideManagerFinishDate='" + wideManagerFinishDate + '\'' +
                 ", contractStatusCode='" + contractStatusCode + '\'' +
                 ", wideManagerRole='" + wideManagerRole + '\'' +
+                ", partnerId='" + partnerId + '\'' +
+                ", franchiseId='" + franchiseId + '\'' +
                 '}';
     }
 }
