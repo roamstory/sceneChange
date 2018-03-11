@@ -59,7 +59,7 @@
                               <Label fx:id="presentPeriod" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                            </children>
                         </GridPane>
-                        <JFXButton fx:id="insertUse" onAction="#handlePop" layoutX="110.0" layoutY="88.0" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="사용" textFill="WHITE" />
+                        <JFXButton fx:id="insertUse" layoutX="110.0" layoutY="88.0" prefHeight="43.0" prefWidth="88.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="사용" textFill="WHITE" />
                      </children>
                   </AnchorPane>
               </items>

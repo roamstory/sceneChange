@@ -45,7 +45,7 @@ public class PresentController extends SocketConnect implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        popup = new Popup();
+
     }
 
     public void handleBtnOkAction(ActionEvent e) {
