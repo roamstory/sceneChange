@@ -61,8 +61,15 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     };
 
     static void action2(String phoneNumber) {
-        CustomerSearchController customerSearchController = new CustomerSearchController();
-        customerSearchController.searchCustomerAction2(phoneNumber);
+        try {
+            FXMLLoader loader = new FXMLLoader(CustomerSearchController.class.getResource("Main.fxml"));
+            Parent root = loader.load();
+            CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
+            customerSearchController.searchCustomerAction2(phoneNumber);
+        }catch (Exception e) {
+
+        }
+
     }
 
 
