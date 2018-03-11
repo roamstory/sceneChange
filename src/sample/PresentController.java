@@ -16,7 +16,9 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.stage.Popup;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import org.json.JSONObject;
 
 import javax.print.DocFlavor;
@@ -32,6 +34,7 @@ public class PresentController extends SocketConnect implements Initializable {
     CustomerVO customerVO = new CustomerVO();
 
     ObservableList<CustomerGiftVO> customerGiftList = FXCollections.observableArrayList();
+    Popup popup;
 
     @FXML private TableView<CustomerGiftVO> tableView;
     @FXML private ImageView imageView;
@@ -42,7 +45,7 @@ public class PresentController extends SocketConnect implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        popup = new Popup();
     }
 
     public void handleBtnOkAction(ActionEvent e) {
@@ -111,6 +114,9 @@ public class PresentController extends SocketConnect implements Initializable {
             @Override
             public void changed(ObservableValue<? extends CustomerGiftVO> observable, CustomerGiftVO oldValue, CustomerGiftVO newValue) {
                 if(newValue!=null) {
+                    customerVO.getMembershipCustomerNo();
+                    newValue.getType();
+                    newValue.getGiftNo();
                     presentName.setText(newValue.getGiftProductName());
                     presentPeriod.setText(newValue.getGiftBeginDate() + " ~ " + newValue.getGiftFinishDate());
                 }

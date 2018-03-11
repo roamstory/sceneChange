@@ -174,8 +174,6 @@ public class MainController extends SocketConnect implements Initializable {
                 }
 
                 if (responseVal.equals("1")) {
-
-
                     Platform.runLater(() -> {
                         try {
                             Stage stage = new Stage();
@@ -195,7 +193,6 @@ public class MainController extends SocketConnect implements Initializable {
                             System.out.println("File Not Found >>" + e);
                             e.printStackTrace();
                         }
-                        Thread.interrupted();
                     });
 
                 } else {
