@@ -6,6 +6,8 @@ import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
 import javafx.application.Platform;
 import javafx.scene.Parent;
+import javafx.scene.control.Button;
+import javafx.stage.Stage;
 import org.json.JSONObject;
 import sun.applet.Main;
 
@@ -17,6 +19,8 @@ public class SocketConnect {
     static Socket mSocket;
 
     CustomerSearchController customerSearchController;
+
+    static Stage stage;
 
     public void socketConnect() {
         try {

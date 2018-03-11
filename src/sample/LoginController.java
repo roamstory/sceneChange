@@ -41,8 +41,6 @@ public class LoginController extends SocketConnect implements Initializable {
 
     int interVal1 = 0;
 
-
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 

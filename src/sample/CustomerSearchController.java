@@ -30,9 +30,6 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     CustomerVO customerVO = new CustomerVO();
 
     @FXML
-    private AnchorPane pane;
-
-    @FXML
     private Button logintoMain;
 
     @FXML
@@ -44,27 +41,9 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     @FXML
     private JFXTextField customerNumber;
 
-    public volatile static CustomerSearchController instance = new CustomerSearchController();
-
-    public CustomerSearchController() {
-    }
-
-    public static CustomerSearchController getInstance(){
-        System.out.println("instance는 ..." + instance);
-        if(instance == null){
-            synchronized(CustomerSearchController.class){
-                if(instance == null){
-                    instance = new CustomerSearchController();
-                }
-            }
-        }
-        return instance;
-    }
-
     static Emitter.Listener customerInfoResponse = new Emitter.Listener() {
         @Override
         public void call(final Object... args) {
-            System.out.println("hehe");
             String phoneNumber = "";
             JSONObject data = (JSONObject)args[0];
             try {
@@ -79,7 +58,8 @@ public class CustomerSearchController extends SocketConnect implements Initializ
 
     static void action2(String phoneNumber) {
         try {
-            CustomerSearchController customerSearchController = new CustomerSearchController();
+            FXMLLoader loader = new FXMLLoader(CustomerSearchController.class.getResource("CustomerSearch.fxml"));
+            CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
             customerSearchController.searchCustomerAction2(phoneNumber);
         }catch (Exception e) {
 
@@ -171,6 +151,8 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                 if(responseVal.equals("1")) {
                     Platform.runLater(()-> {
                         try {
+                            Stage stage = new Stage();
+                            stage = (Stage)customerSearch.getScene().getWindow();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                             Parent root = loader.load();
                             MainController mainController = loader.<MainController>getController();
@@ -179,7 +161,6 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             mainController.setCustomerVO(customerVO);
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
-                            stage.show();
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println(e.toString());
@@ -241,6 +222,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                     Platform.runLater(()-> {
                         try {
                             Stage stage = new Stage();
+                            stage = (Stage)customerSearch.getScene().getWindow();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                             Parent root = loader.load();
                             MainController mainController = loader.<MainController>getController();
@@ -264,9 +246,6 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         });
 
     }
-
-
-
 
     public void setStoreVO(StoreVO storeVO) {
         this.storeVO = storeVO;

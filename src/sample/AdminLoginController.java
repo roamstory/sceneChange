@@ -130,21 +130,6 @@ public class AdminLoginController extends SocketConnect implements Initializable
                     });
     }
 
-    @FXML
-    void openRegisterAction(ActionEvent event) {
-        try {
-            Stage stage = new Stage();
-            stage = (Stage) openRegister.getScene().getWindow();
-            System.out.println(stage);
-            Parent root = FXMLLoader.load(getClass().getResource("Register.fxml"));
-            Scene scene = new Scene(root);
-            stage.setScene(scene);
-        } catch (Exception e) {
-            System.out.println("File Not Found >>" + e);
-            e.printStackTrace();
-        }
-    }
-
     void writeInfoXml(JSONObject data) {
 
         File file = new File("deviceInfo.xml");
