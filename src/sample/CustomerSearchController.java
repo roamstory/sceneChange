@@ -95,7 +95,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             storeVO = deviceInfoXmlParse.parseXML();
                             adminLoginController.setStoreVO(storeVO);
                         }
-
+                        stage.setTitle("매장 로그인");
                         Scene scene = new Scene(root);
                         scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                         stage.setScene(scene);
@@ -159,6 +159,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             mainController.setStoreVO(storeVO);
                             mainController.setData(customerVO);
                             mainController.setCustomerVO(customerVO);
+                            stage.setTitle("고객 정보");
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
                         } catch (IOException e) {
@@ -222,7 +223,6 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                     Platform.runLater(()-> {
                         try {
                             Stage stage = new Stage();
-                            stage = (Stage)customerSearch.getScene().getWindow();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                             Parent root = loader.load();
                             MainController mainController = loader.<MainController>getController();
@@ -231,6 +231,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             mainController.setCustomerVO(customerVO);
                             Scene scene = new Scene(root);
                             stage.setScene(scene);
+                            stage.setTitle("고객 정보");
                             stage.show();
                         } catch (Exception e) {
                             e.printStackTrace();

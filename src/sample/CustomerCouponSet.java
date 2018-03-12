@@ -16,6 +16,7 @@ public class CustomerCouponSet {
             String type = couponList.getString("type");
             String customer_couponproduct_no = couponList.getString("customer_couponproduct_no");
             String coupon_title = couponList.getString("coupon_title");
+            String product_title = couponList.getString("product_title");
             String product_image_url = couponList.getString("product_image_url");
             String customer_couponproduct_use_date = couponList.getString("customer_couponproduct_use_date");
             int customer_couponproduct_use_code = couponList.getInt("customer_couponproduct_use_code");
@@ -23,7 +24,7 @@ public class CustomerCouponSet {
             String customer_couponproduct_finish_date = couponList.getString("customer_couponproduct_finish_date");
             String couponUseYn = couponList.getString("couponUseYn");
 
-            customerCouponList.add(new CustomerCouponVO( type,  customer_couponproduct_no,  coupon_title,  product_image_url
+            customerCouponList.add(new CustomerCouponVO( type,  customer_couponproduct_no,  coupon_title, product_title,  product_image_url
                     ,  customer_couponproduct_use_code,  customer_couponproduct_use_date,
                      customer_couponproduct_begin_date,  customer_couponproduct_finish_date, couponUseYn));
 

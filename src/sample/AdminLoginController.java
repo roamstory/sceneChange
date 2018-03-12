@@ -37,6 +37,8 @@ public class AdminLoginController extends SocketConnect implements Initializable
 
     DeviceInfoXmlParse deviceInfoXmlParse = new DeviceInfoXmlParse();
 
+    WriteInfoXml writeInfoXml = new WriteInfoXml();
+
     StoreVO storeVO = new StoreVO();
 
     static HanKeyToEngKey hanKeyToEngKey = HanKeyToEngKey.getInstance();
@@ -102,7 +104,7 @@ public class AdminLoginController extends SocketConnect implements Initializable
                             }
                             if(responseVal.equals("1")) {
 
-                                writeInfoXml(data);
+                                writeInfoXml.writeInfo(data);
 
                                 Platform.runLater(()-> {
                                             try {
@@ -114,6 +116,7 @@ public class AdminLoginController extends SocketConnect implements Initializable
                                                 storeVO = deviceInfoXmlParse.parseXML();
                                                 customerSearchController.setStoreVO(storeVO);
                                                 Scene scene = new Scene(root);
+                                                stage.setTitle("고객 조회");
                                                 scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                                                 stage.setScene(scene);
                                             } catch (Exception e) {
@@ -130,154 +133,7 @@ public class AdminLoginController extends SocketConnect implements Initializable
                     });
     }
 
-    void writeInfoXml(JSONObject data) {
 
-        File file = new File("deviceInfo.xml");
-
-        if( file.exists() ){
-            if(file.delete()){
-                System.out.println("파일삭제 성공");
-            }else{
-                System.out.println("파일삭제 실패");
-            }
-        }else{
-            try {
-                file.createNewFile();
-            } catch (IOException e) {
-                System.out.println(e);
-            }
-        }
-
-        try {
-            Document document = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-            Node root = document.createElement("wishwide");
-            document.appendChild(root);
-            {
-                {
-                    Element mallSocketId = document.createElement("mallSocketId");
-                    mallSocketId.appendChild(document.createTextNode(data.getString("mallSocketId")));
-                    root.appendChild(mallSocketId);
-                }
-                {
-                    Element deviceId = document.createElement("deviceId");
-                    deviceId.appendChild(document.createTextNode(data.getString("deviceId")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("wideManagerId");
-                    deviceId.appendChild(document.createTextNode(data.getString("wideManagerId")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("wideManagerPassword");
-                    deviceId.appendChild(document.createTextNode(data.getString("wideManagerPassword")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("wideManagerName");
-                    deviceId.appendChild(document.createTextNode(data.getString("wideManagerName")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("benefitTypeCode");
-                    deviceId.appendChild(document.createTextNode(data.getString("benefitTypeCode")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("stampGoal");
-                    deviceId.appendChild(document.createTextNode(data.getString("stampGoal")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("stampVipGoal");
-                    deviceId.appendChild(document.createTextNode(data.getString("stampVipGoal")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("stampVipDiscountRate");
-                    deviceId.appendChild(document.createTextNode(data.getString("stampVipDiscountRate")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointRate");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointRate")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointUseGoal");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointUseGoal")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointVipGoal");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointVipGoal")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointVipRate");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointVipRate")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointVipDiscountRate");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointVipDiscountRate")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("stampCommonStatusCode");
-                    deviceId.appendChild(document.createTextNode(data.getString("stampCommonStatusCode")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointCommonStatusCode");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointCommonStatusCode")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("wideManagerFinishDate");
-                    deviceId.appendChild(document.createTextNode(data.getString("wideManagerFinishDate")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("contractStatusCode");
-                    deviceId.appendChild(document.createTextNode(data.getString("contractStatusCode")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("wideManagerRole");
-                    deviceId.appendChild(document.createTextNode(data.getString("wideManagerRole")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("stampCommonStatusCode");
-                    deviceId.appendChild(document.createTextNode(data.getString("stampCommonStatusCode")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("pointCommonStatusCode");
-                    deviceId.appendChild(document.createTextNode(data.getString("pointCommonStatusCode")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("partnerId");
-                    deviceId.appendChild(document.createTextNode(data.getString("partnerId")));
-                    root.appendChild(deviceId);
-                }
-                {
-                    Element deviceId = document.createElement("franchiseId");
-                    deviceId.appendChild(document.createTextNode(data.getString("franchiseId")));
-                    root.appendChild(deviceId);
-                }
-
-            }
-            DOMSource xmlDOM = new DOMSource(document);
-            StreamResult xmlFile = new StreamResult(new File("deviceInfo.xml"));
-            TransformerFactory.newInstance().newTransformer().transform(xmlDOM, xmlFile);
-
-        } catch (Exception e) {
-            System.out.println(e);
-        }
-    }
 
     public void setStoreVO(StoreVO storeVO) {
         this.storeVO = storeVO;

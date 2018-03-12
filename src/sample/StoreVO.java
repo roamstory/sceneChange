@@ -8,6 +8,7 @@ public class StoreVO {
     private String wideManagerPassword;
     private String wideManagerName;
     private String benefitTypeCode;
+    private int benefitCouponNo;
     private int stampGoal;
     private int stampVipGoal;
     private int stampVipDiscountRate;
@@ -70,6 +71,14 @@ public class StoreVO {
 
     public void setBenefitTypeCode(String benefitTypeCode) {
         this.benefitTypeCode = benefitTypeCode;
+    }
+
+    public int getBenefitCouponNo() {
+        return benefitCouponNo;
+    }
+
+    public void setBenefitCouponNo(int benefitCouponNo) {
+        this.benefitCouponNo = benefitCouponNo;
     }
 
     public int getStampGoal() {
@@ -201,6 +210,7 @@ public class StoreVO {
                 ", wideManagerPassword='" + wideManagerPassword + '\'' +
                 ", wideManagerName='" + wideManagerName + '\'' +
                 ", benefitTypeCode='" + benefitTypeCode + '\'' +
+                ", benefitCouponNo=" + benefitCouponNo +
                 ", stampGoal=" + stampGoal +
                 ", stampVipGoal=" + stampVipGoal +
                 ", stampVipDiscountRate=" + stampVipDiscountRate +

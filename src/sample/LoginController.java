@@ -39,8 +39,6 @@ public class LoginController extends SocketConnect implements Initializable {
     @FXML
     private JFXPasswordField userpassword;
 
-    int interVal1 = 0;
-
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
@@ -48,8 +46,7 @@ public class LoginController extends SocketConnect implements Initializable {
 
     @FXML
     void openLoginAction(ActionEvent event) {
-        interVal1++;
-        System.out.println("interVal1 >>>> " + interVal1);
+
         JSONObject loginData = new JSONObject();
             try {
                     storeVO = deviceInfoXmlParse.parseXML();
@@ -92,6 +89,7 @@ public class LoginController extends SocketConnect implements Initializable {
                             CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
                             customerSearchController.setStoreVO(storeVO);
                             Scene scene = new Scene(root);
+                            stage.setTitle("고객 조회");
                             scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                             stage.setScene(scene);
                         } catch (Exception e) {

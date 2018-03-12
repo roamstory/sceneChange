@@ -38,6 +38,7 @@ public class CouponController extends SocketConnect implements Initializable {
     @FXML private Stage stage;
     @FXML private Label couponName;
     @FXML private Label couponPeriod;
+    @FXML private Label couponProduct;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -111,7 +112,9 @@ public class CouponController extends SocketConnect implements Initializable {
             public void changed(ObservableValue<? extends CustomerCouponVO> observable, CustomerCouponVO oldValue, CustomerCouponVO newValue) {
                 if(newValue!=null) {
                     couponName.setText(newValue.getCoupon_title());
+                    couponProduct.setText(newValue.getProduct_title());
                     couponPeriod.setText(newValue.getCustomer_couponproduct_begin_date() + " ~ " + newValue.getCustomer_couponproduct_finish_date());
+
                 }
             }
         });

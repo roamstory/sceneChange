@@ -51,6 +51,9 @@ public class MainController extends SocketConnect implements Initializable {
     private Button openCoupon;
 
     @FXML
+    private Button btnInsertBenefitData;
+
+    @FXML
     private Stage stage;
 
     @FXML
@@ -94,9 +97,9 @@ public class MainController extends SocketConnect implements Initializable {
         grade.setText(customerVO.getMembershipCustomerGrade());
 
         if (customerVO.getWideCustomerSex().equals(0)) {
-            sex.setText("(여)");
-        } else {
             sex.setText("(남)");
+        } else {
+            sex.setText("(여)");
         }
 
         if (customerVO.getMembershipCustomerBenefitType() == "S") {
@@ -124,6 +127,7 @@ public class MainController extends SocketConnect implements Initializable {
                     storeVO = deviceInfoXmlParse.parseXML();
                     customerSearchController.setStoreVO(storeVO);
                     Scene scene = new Scene(root);
+                    stage.setTitle("고객 조회");
                     scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                     stage.setScene(scene);
                 } catch(Exception e) {
@@ -187,6 +191,7 @@ public class MainController extends SocketConnect implements Initializable {
                             presentController.setCustomerVO(customerVO);
                             presentController.setCustomerGiftList(customerGiftList);
                             Scene scene = new Scene(root);
+                            stage.setTitle("선물함");
                             scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                             stage.setScene(scene);
                         } catch (Exception e) {
@@ -256,6 +261,7 @@ public class MainController extends SocketConnect implements Initializable {
                             couponController.setCustomerVO(customerVO);
                             couponController.setCustomerCouponList(customerCouponList);
                             Scene scene = new Scene(root);
+                            stage.setTitle("쿠폰함");
                             scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                             stage.setScene(scene);
                         } catch (Exception e) {
@@ -270,6 +276,11 @@ public class MainController extends SocketConnect implements Initializable {
                 }
             }
         });
+    }
+
+    @FXML
+    void insertBenefitDataAction(ActionEvent event) {
+        System.out.println("insert benefit");
     }
 
 

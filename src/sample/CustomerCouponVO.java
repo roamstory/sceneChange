@@ -8,6 +8,7 @@ public class CustomerCouponVO {
     private SimpleStringProperty type;
     private SimpleStringProperty customer_couponproduct_no;
     private SimpleStringProperty coupon_title;
+    private SimpleStringProperty product_title;
     private SimpleStringProperty product_image_url;
     private SimpleIntegerProperty customer_couponproduct_use_code;
     private SimpleStringProperty customer_couponproduct_use_date;
@@ -20,6 +21,7 @@ public class CustomerCouponVO {
         this.type = new SimpleStringProperty();
         this.customer_couponproduct_no = new SimpleStringProperty();
         this.coupon_title = new SimpleStringProperty();
+        this.product_title = new SimpleStringProperty();
         this.product_image_url = new SimpleStringProperty();
         this.customer_couponproduct_use_code = new SimpleIntegerProperty();
         this.customer_couponproduct_use_date = new SimpleStringProperty();
@@ -28,12 +30,13 @@ public class CustomerCouponVO {
         this.couponUseYn = new SimpleStringProperty();
 
     }
-    public CustomerCouponVO(String type, String customer_couponproduct_no, String coupon_title, String product_image_url
+    public CustomerCouponVO(String type, String customer_couponproduct_no, String coupon_title,String product_title, String product_image_url
             , int customer_couponproduct_use_code, String customer_couponproduct_use_date,
                             String customer_couponproduct_begin_date, String customer_couponproduct_finish_date, String couponUseYn) {
         this.type = new SimpleStringProperty(type);
         this.customer_couponproduct_no = new SimpleStringProperty(customer_couponproduct_no);
         this.coupon_title = new SimpleStringProperty(coupon_title);
+        this.product_title = new SimpleStringProperty(product_title);
         this.product_image_url = new SimpleStringProperty(product_image_url);
         this.customer_couponproduct_use_code = new SimpleIntegerProperty(customer_couponproduct_use_code);
         this.customer_couponproduct_use_date = new SimpleStringProperty(customer_couponproduct_use_date);
@@ -77,6 +80,18 @@ public class CustomerCouponVO {
 
     public void setCoupon_title(String coupon_title) {
         this.coupon_title.set(coupon_title);
+    }
+
+    public String getProduct_title() {
+        return product_title.get();
+    }
+
+    public SimpleStringProperty product_titleProperty() {
+        return product_title;
+    }
+
+    public void setProduct_title(String product_title) {
+        this.product_title.set(product_title);
     }
 
     public String getProduct_image_url() {

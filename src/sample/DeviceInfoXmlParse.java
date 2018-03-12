@@ -205,6 +205,12 @@ public class DeviceInfoXmlParse {
                     storeVO.setContractStatusCode(cnl.item(i).getTextContent());
                     break;
 
+                case "benefitCouponNo" :
+
+                    System.out.println("benefitCouponNo set");
+                    storeVO.setContractStatusCode(cnl.item(i).getTextContent());
+                    break;
+
             }
         }
 
