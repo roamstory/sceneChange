@@ -11,9 +11,9 @@ import javax.xml.xpath.XPathFactory;
 
 public class DeviceInfoXmlParse {
 
-    StoreVO storeVO = new StoreVO();
+    static StoreVO storeVO = new StoreVO();
 
-    public StoreVO parseXML() throws Exception {
+    public static StoreVO parseXML() throws Exception {
 
 
         // [REF] https://msdn.microsoft.com/ko-kr/library/ms762271(v=vs.85).aspx

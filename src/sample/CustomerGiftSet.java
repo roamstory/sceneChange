@@ -11,7 +11,7 @@ public class CustomerGiftSet {
         ObservableList<CustomerGiftVO> customerGiftList = FXCollections.observableArrayList();
 
         for (int i = 0; i < data.getInt("giftCount"); i++) {
-            JSONObject giftList =  data.getJSONObject("giftList"+i);
+            JSONObject giftList =  data.getJSONObject("gift"+i);
 
             String type = giftList.getString("type");
             String giftNo = giftList.getString("giftNo");

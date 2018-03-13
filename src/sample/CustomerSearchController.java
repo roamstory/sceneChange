@@ -1,5 +1,6 @@
 package sample;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import io.socket.client.Ack;
 import io.socket.emitter.Emitter;
@@ -11,8 +12,11 @@ import javafx.fxml.Initializable;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.json.JSONObject;
 
 import java.io.IOException;
@@ -46,20 +50,26 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         public void call(final Object... args) {
             String phoneNumber = "";
             JSONObject data = (JSONObject)args[0];
+            System.out.println("여기여기여기" + data);
             try {
-                phoneNumber = data.getString("phoneNumber");
+                System.out.println("여기여기여기");
+                phoneNumber = data.getString("membershipCustomerPhone");
+                System.out.println(phoneNumber);
             } catch (Exception e) {
-
+                System.out.println(e);
             }
+            System.out.println("여기여기11여기");
             action2(phoneNumber);
+            System.out.println("22222");
         }
     };
 
 
     static void action2(String phoneNumber) {
         try {
+            System.out.println(">>>>1111");
             FXMLLoader loader = new FXMLLoader(CustomerSearchController.class.getResource("CustomerSearch.fxml"));
-            CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
+            CustomerSearchController customerSearchController = new CustomerSearchController();
             customerSearchController.searchCustomerAction2(phoneNumber);
         }catch (Exception e) {
 
@@ -70,6 +80,26 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     @Override
     public void initialize(URL location, ResourceBundle resources) {
 
+    }
+
+    public void handleBtnAction(ActionEvent e) {
+        if (customerNumber.getText().length() < 12) {
+            String buttonText = ((JFXButton)e.getSource()).getText();
+            customerNumber.setText(customerNumber.getText() + buttonText);
+        }
+    }
+
+
+    public void handleBtnOkAction(ActionEvent e) {
+        System.out.println(customerNumber.getText());
+    }
+
+    public void handleBtnDelAction(ActionEvent e) {
+        String phoneNumber = "";
+        if(customerNumber.getText().length() > 0) {
+            phoneNumber = customerNumber.getText().substring(0, customerNumber.getText().length()-1 );
+        }
+        customerNumber.setText(phoneNumber);
     }
 
     @FXML
@@ -171,7 +201,28 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                      });
 
                 } else {
-                    System.out.println("fail");
+                    Platform.runLater(() -> {
+                        try {
+                            Stage dialog = new Stage(StageStyle.UTILITY);
+                            dialog.initModality(Modality.WINDOW_MODAL);
+                            dialog.initOwner(stage);
+                            dialog.setTitle("확인");
+
+                            Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                            Label txtTitle = (Label) parent.lookup("#txtTitle");
+                            txtTitle.setText("가입된 멤버쉽 회원이 아닙니다.");
+                            Button btnOk = (Button) parent.lookup("#btnOk");
+                            btnOk.setOnAction(event->dialog.close());
+                            Scene scene = new Scene(parent);
+
+                            dialog.setScene(scene);
+                            dialog.setResizable(false);
+                            dialog.show();
+                        }
+                        catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
                 }
             }
         });

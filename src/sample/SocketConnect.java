@@ -1,6 +1,7 @@
 package sample;
 
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import io.socket.client.Ack;
 import io.socket.client.IO;
 import io.socket.client.Socket;
 import io.socket.emitter.Emitter;
@@ -19,12 +20,14 @@ public class SocketConnect {
     static Socket mSocket;
 
     CustomerSearchController customerSearchController;
+    static DeviceInfoXmlParse deviceInfoXmlParse =  new DeviceInfoXmlParse();
 
     static Stage stage;
 
     public void socketConnect() {
         try {
-            mSocket = IO.socket("http://49.236.137.39:5000");
+            mSocket = IO.socket("http://192.168.0.2:5000");
+            //mSocket = IO.socket("http://49.236.137.39:5000");
             mSocket.on(Socket.EVENT_CONNECT, onConnect);
             mSocket.on("onNewMessage", onNewMessage);
             mSocket.on("connectedSuccess", connectedSuccess);
@@ -47,6 +50,23 @@ public class SocketConnect {
         @Override
         public void call(Object... objects) {
             System.out.println("Log");
+            try {
+                StoreVO storeVO = deviceInfoXmlParse.parseXML();
+                JSONObject storeInfo = new JSONObject();
+                storeInfo.put("deviceId", storeVO.getDeviceId());
+                storeInfo.put("mallSocketId", storeVO.getMallSocketId());
+
+                mSocket.emit("join", storeInfo , new Ack() {
+                    @Override
+                    public void call(Object... args) {
+                        System.out.println("join");
+                    }
+                });
+            } catch (Exception e) {
+
+            }
+
+
         }
     };
 

@@ -1,6 +1,7 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
+import io.socket.client.Ack;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
@@ -16,9 +17,8 @@ import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
-import javafx.stage.Popup;
-import javafx.stage.Stage;
-import javafx.stage.Window;
+import javafx.stage.*;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.print.DocFlavor;
@@ -33,6 +33,8 @@ public class PresentController extends SocketConnect implements Initializable {
 
     CustomerVO customerVO = new CustomerVO();
 
+    CustomerGiftSet customerGiftSet = new CustomerGiftSet();
+
     ObservableList<CustomerGiftVO> customerGiftList = FXCollections.observableArrayList();
     Popup popup;
 
@@ -42,6 +44,10 @@ public class PresentController extends SocketConnect implements Initializable {
     @FXML private Stage stage;
     @FXML private Label presentName;
     @FXML private Label presentPeriod;
+    @FXML private Label giftNo;
+    @FXML private Label type;
+    @FXML private Label giftUseYn;
+    @FXML private Button insertUse;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -92,6 +98,153 @@ public class PresentController extends SocketConnect implements Initializable {
         System.out.println(this.customerVO.toString());
     }
 
+    @FXML
+    void insertDataAction(ActionEvent ev) {
+        if (!giftUseYn.getText().equals("사용")) {
+            Platform.runLater(() -> {
+                try {
+                    Stage dialog = new Stage(StageStyle.UTILITY);
+                    dialog.initModality(Modality.WINDOW_MODAL);
+                    dialog.initOwner(stage);
+                    dialog.setTitle("확인");
+
+                    Parent parent = FXMLLoader.load(getClass().getResource("present_dialog.fxml"));
+                    Label productName = (Label) parent.lookup("#productName");
+                    productName.setText(presentName.getText());
+                    Label productPeriod = (Label) parent.lookup("#productPeriod");
+                    productPeriod.setText(presentPeriod.getText());
+                    Button btnCancel = (Button) parent.lookup("#btnCancel");
+                    btnCancel.setOnAction(event->dialog.close());
+                    Button btnOk = (Button) parent.lookup("#btnOk");
+                    btnOk.setOnAction((event) -> {
+                        // Button was clicked, do something...
+                        goToPresnetUse();
+                        dialog.close();
+                    });
+                    Scene scene = new Scene(parent);
+
+                    dialog.setScene(scene);
+                    dialog.setResizable(false);
+                    dialog.show();
+                }
+                catch (Exception e) {
+                    System.out.println(e);
+                }
+            });
+        } else {
+            Platform.runLater(() -> {
+                try {
+                    Stage dialog = new Stage(StageStyle.UTILITY);
+                    dialog.initModality(Modality.WINDOW_MODAL);
+                    dialog.initOwner(stage);
+                    dialog.setTitle("확인");
+
+                    Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                    Label txtTitle = (Label) parent.lookup("#txtTitle");
+                    txtTitle.setText("사용이 되어 사용이 불가합니다.");
+                    Button btnOk = (Button) parent.lookup("#btnOk");
+
+                    btnOk.setOnAction(event->dialog.close());
+                    Scene scene = new Scene(parent);
+
+                    dialog.setScene(scene);
+                    dialog.setResizable(false);
+                    dialog.show();
+                }
+                catch (Exception e) {
+                    System.out.println(e);
+                }
+            });
+        }
+
+    }
+
+    public void goToPresnetUse() {
+        System.out.println("선물 사용 하기");
+            JSONObject benefitInsertInfo = new JSONObject();
+            try {
+                System.out.println(type.getText());
+                benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
+                benefitInsertInfo.put("giftNo", giftNo.getText());
+                benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
+                benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
+                benefitInsertInfo.put("benefitType", storeVO.getBenefitTypeCode());
+                benefitInsertInfo.put("mallSocketId", storeVO.getMallSocketId());
+            } catch (JSONException jsonEx) {
+                jsonEx.printStackTrace();
+            }
+
+            System.out.println(benefitInsertInfo);
+            mSocket.emit("giftUpdate", benefitInsertInfo, new Ack() {
+                @Override
+                public void call(Object... args) {
+                    JSONObject data = (JSONObject) args[0];
+                    String responseVal = "";
+                    try {
+                        JSONObject giftList = new JSONObject();
+                        responseVal = data.getString("responseCode");
+                        System.out.println("-----------------------");
+                        System.out.println("Data 1:::" + data.getString("giftList"));
+                        System.out.println("Data 2:::" + data.getString("responseCode"));
+                        System.out.println("-----------------------");
+                        giftList = data.getJSONObject("giftList");
+                        giftList.put("giftCount" , data.getString("giftCount"));
+                        customerGiftList = customerGiftSet.customerGiftSetVO(giftList);
+                        System.out.println(">>>>>>" + customerGiftList);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
+                    if (responseVal.equals("1") || responseVal.equals("2")) {
+                        Platform.runLater(() -> {
+                            try {
+                                Stage stage = new Stage();
+                                stage = (Stage) insertUse.getScene().getWindow();
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("Present.fxml"));
+                                Parent root = loader.load();
+                                PresentController presentController = loader.<PresentController>getController();
+                                storeVO = deviceInfoXmlParse.parseXML();
+                                presentController.setStoreVO(storeVO);
+                                presentController.setCustomerVO(customerVO);
+                                presentController.setCustomerGiftList(customerGiftList);
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                            } catch (Exception e) {
+                                System.out.println("File Not Found >>" + e);
+                                e.printStackTrace();
+                            }
+                            Thread.interrupted();
+                        });
+
+                    } else {
+                        Platform.runLater(() -> {
+                            try {
+                                Stage dialog = new Stage(StageStyle.UTILITY);
+                                dialog.initModality(Modality.WINDOW_MODAL);
+                                dialog.initOwner(stage);
+                                dialog.setTitle("확인");
+
+                                Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                                Label txtTitle = (Label) parent.lookup("#txtTitle");
+                                txtTitle.setText("선물 사용 시 오류가 발생했습니다.");
+                                Button btnOk = (Button) parent.lookup("#btnOk");
+                                btnOk.setOnAction(event->dialog.close());
+                                Scene scene = new Scene(parent);
+
+                                dialog.setScene(scene);
+                                dialog.setResizable(false);
+                                dialog.show();
+                            }
+                            catch (Exception e) {
+                                System.out.println(e);
+                            }
+                        });
+                    }
+
+                }
+            });
+        }
+
     public void setCustomerGiftList(ObservableList<CustomerGiftVO> customerGiftList) {
         this.customerGiftList = customerGiftList;
         System.out.println("customerGiftList>????>" + customerGiftList);
@@ -115,8 +268,12 @@ public class PresentController extends SocketConnect implements Initializable {
             public void changed(ObservableValue<? extends CustomerGiftVO> observable, CustomerGiftVO oldValue, CustomerGiftVO newValue) {
                 if(newValue!=null) {
                     customerVO.getMembershipCustomerNo();
-                    newValue.getType();
-                    newValue.getGiftNo();
+                    giftNo.setText(newValue.getGiftNo());
+                    type.setText(newValue.getType());
+                    giftUseYn.setText(newValue.getGiftUseYn());
+                    giftNo.setVisible(false);
+                    type.setVisible(false);
+                    giftUseYn.setVisible(false);
                     presentName.setText(newValue.getGiftProductName());
                     presentPeriod.setText(newValue.getGiftBeginDate() + " ~ " + newValue.getGiftFinishDate());
                 }

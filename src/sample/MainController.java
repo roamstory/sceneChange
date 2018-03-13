@@ -1,5 +1,6 @@
 package sample;
 
+import com.jfoenix.controls.JFXButton;
 import com.jfoenix.controls.JFXTextField;
 import io.socket.client.Ack;
 import io.socket.emitter.Emitter;
@@ -17,7 +18,9 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.layout.AnchorPane;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -32,6 +35,8 @@ public class MainController extends SocketConnect implements Initializable {
     StoreVO storeVO = new StoreVO();
 
     CustomerVO customerVO = new CustomerVO();
+
+    CustomerSet customerSet = new CustomerSet();
 
     CustomerGiftSet customerGiftSet = new CustomerGiftSet();
 
@@ -80,6 +85,9 @@ public class MainController extends SocketConnect implements Initializable {
     @FXML
     private Label benefitTypeName;
 
+    @FXML
+    private JFXTextField benefitData;
+
     private JSONObject CustomerData;
 
     @Override
@@ -102,7 +110,7 @@ public class MainController extends SocketConnect implements Initializable {
             sex.setText("(여)");
         }
 
-        if (customerVO.getMembershipCustomerBenefitType() == "S") {
+        if (customerVO.getMembershipCustomerBenefitType().equals("S")) {
             benefitTypeName.setText("개");
             benefitType.setText("현재 쿠폰 도장 개수 :");
             benefitVal.setText(customerVO.getMembershipCustomerBenefitValue()+" 개");
@@ -201,14 +209,35 @@ public class MainController extends SocketConnect implements Initializable {
                     });
 
                 } else {
-                    System.out.println("fail");
+                    Platform.runLater(() -> {
+                        try {
+                            Stage dialog = new Stage(StageStyle.UTILITY);
+                            dialog.initModality(Modality.WINDOW_MODAL);
+                            dialog.initOwner(stage);
+                            dialog.setTitle("확인");
+
+                            Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                            Label txtTitle = (Label) parent.lookup("#txtTitle");
+                            txtTitle.setText("선물이 없습니다.");
+                            Button btnOk = (Button) parent.lookup("#btnOk");
+                            btnOk.setOnAction(event->dialog.close());
+                            Scene scene = new Scene(parent);
+
+                            dialog.setScene(scene);
+                            dialog.setResizable(false);
+                            dialog.show();
+                        }
+                        catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
                 }
             }
         });
     }
 
     @FXML
-    void openCouponAction(ActionEvent event) {
+    void openCouponAction(ActionEvent e) {
         JSONObject searchCustomerInfo = new JSONObject();
         try {
             storeVO = deviceInfoXmlParse.parseXML();
@@ -224,8 +253,8 @@ public class MainController extends SocketConnect implements Initializable {
             searchCustomerInfo.put("mallSocketId", mallSocketId);
             searchCustomerInfo.put("deviceId", deviceId);
 
-        } catch (Exception e) {
-            System.out.println(e);
+        } catch (Exception ex) {
+            System.out.println(ex);
         }
 
         mSocket.emit("searchCustomerCoupon", searchCustomerInfo, new Ack() {
@@ -240,14 +269,12 @@ public class MainController extends SocketConnect implements Initializable {
                     System.out.println("-----------------------");
 
                     customerCouponList = customerCouponSet.customerCouponSetVO(data);
-
                 } catch (Exception e) {
                     System.out.println(e);
                 }
 
+
                 if (responseVal.equals("1")) {
-
-
                     Platform.runLater(() -> {
                         try {
                             Stage stage = new Stage();
@@ -272,15 +299,162 @@ public class MainController extends SocketConnect implements Initializable {
                     });
 
                 } else {
-                    System.out.println("fail");
+                    Platform.runLater(() -> {
+                        try {
+                            Stage dialog = new Stage(StageStyle.UTILITY);
+                            dialog.initModality(Modality.WINDOW_MODAL);
+                            dialog.initOwner(stage);
+                            dialog.setTitle("확인");
+
+                            Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                            Label txtTitle = (Label) parent.lookup("#txtTitle");
+                            txtTitle.setText("쿠폰이 없습니다.");
+                            Button btnOk = (Button) parent.lookup("#btnOk");
+                            btnOk.setOnAction(event->dialog.close());
+                            Scene scene = new Scene(parent);
+
+                            dialog.setScene(scene);
+                            dialog.setResizable(false);
+                            dialog.show();
+                        }
+                            catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
                 }
+
             }
         });
     }
 
+    public void handleBtnAction(ActionEvent e) {
+        if (benefitData.getText().length() < 2) {
+            String buttonText = ((JFXButton)e.getSource()).getText();
+            benefitData.setText(benefitData.getText() + buttonText);
+        }
+    }
+
+
+    public void handleBtnOkAction(ActionEvent e) {
+        System.out.println(benefitData.getText());
+    }
+
+    public void handleBtnDelAction(ActionEvent e) {
+        String benefitVal = "";
+        if(benefitData.getText().length() > 0) {
+            benefitVal = benefitData.getText().substring(0, benefitData.getText().length()-1 );
+        }
+        benefitData.setText(benefitVal);
+    }
+
     @FXML
-    void insertBenefitDataAction(ActionEvent event) {
-        System.out.println("insert benefit");
+    void insertBenefitDataAction(ActionEvent e) {
+        
+        if(!benefitData.getText().equals("") || !benefitData.getText().equals("0")) {
+            JSONObject benefitInsertInfo = new JSONObject();
+            try {
+                benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
+                benefitInsertInfo.put("stampSavingCnt", benefitData.getText());
+                benefitInsertInfo.put("stampGoal", storeVO.getStampGoal());
+                benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
+                benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
+                benefitInsertInfo.put("couponNo", storeVO.getBenefitCouponNo());
+                benefitInsertInfo.put("mallSocketId", storeVO.getMallSocketId());
+            } catch (JSONException jsonEx) {
+                jsonEx.printStackTrace();
+            }
+
+            System.out.println(benefitInsertInfo);
+            mSocket.emit("benefitStampUpdate", benefitInsertInfo, new Ack() {
+                @Override
+                public void call(Object... args) {
+                    JSONObject data = (JSONObject) args[0];
+                    String responseVal = "";
+                    try {
+                        responseVal = data.getString("responseCode");
+                        System.out.println("-----------------------");
+                        System.out.println("Data :::" + data);
+                        System.out.println("Data :::" + data.getString("responseCode"));
+                        System.out.println("-----------------------");
+                        customerVO.setMembershipCustomerBenefitValue(Integer.parseInt(data.getString("stampNowCnt")));
+                        System.out.println(customerVO);
+                    } catch (Exception e) {
+                        System.out.println(e);
+                    }
+
+                    if (responseVal.equals("1") || responseVal.equals("2")) {
+                        Platform.runLater(() -> {
+                            try {
+                                Stage stage = new Stage();
+                                stage = (Stage) btnInsertBenefitData.getScene().getWindow();
+                                FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+                                Parent root = loader.load();
+                                MainController mainController = loader.<MainController>getController();
+                                storeVO = deviceInfoXmlParse.parseXML();
+                                mainController.setStoreVO(storeVO);
+                                mainController.setCustomerVO(customerVO);
+                                mainController.setCustomerCouponList(customerCouponList);
+                                mainController.setData(customerVO);
+                                Scene scene = new Scene(root);
+                                stage.setScene(scene);
+                            } catch (Exception e) {
+                                System.out.println("File Not Found >>" + e);
+                                e.printStackTrace();
+                            }
+                            Thread.interrupted();
+                        });
+
+                    } else {
+                        Platform.runLater(() -> {
+                            try {
+                                Stage dialog = new Stage(StageStyle.UTILITY);
+                                dialog.initModality(Modality.WINDOW_MODAL);
+                                dialog.initOwner(stage);
+                                dialog.setTitle("확인");
+
+                                Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                                Label txtTitle = (Label) parent.lookup("#txtTitle");
+                                txtTitle.setText("적립 시 오류가 발생했습니다.");
+                                Button btnOk = (Button) parent.lookup("#btnOk");
+                                btnOk.setOnAction(event->dialog.close());
+                                Scene scene = new Scene(parent);
+
+                                dialog.setScene(scene);
+                                dialog.setResizable(false);
+                                dialog.show();
+                            }
+                            catch (Exception e) {
+                                System.out.println(e);
+                            }
+                        });
+                    }
+
+                }
+            });
+        } else {
+            Platform.runLater(() -> {
+                try {
+                    Stage dialog = new Stage(StageStyle.UTILITY);
+                    dialog.initModality(Modality.WINDOW_MODAL);
+                    dialog.initOwner(stage);
+                    dialog.setTitle("확인");
+
+                    Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                    Label txtTitle = (Label) parent.lookup("#txtTitle");
+                    txtTitle.setText("정확히 입력해 주세요.");
+                    Button btnOk = (Button) parent.lookup("#btnOk");
+                    btnOk.setOnAction(event->dialog.close());
+                    Scene scene = new Scene(parent);
+
+                    dialog.setScene(scene);
+                    dialog.setResizable(false);
+                    dialog.show();
+                }
+                catch (Exception ex) {
+                    System.out.println(ex);
+                }
+            });
+        }
     }
 
 

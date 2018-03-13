@@ -1,11 +1,11 @@
 #rootPane {
-    -fx-background-image: url("img/background3.jpg");
+    -fx-background-image: url("img/background.jpg");
 }
 
 #mainPane {
-    -fx-background-image: url("img/background3.jpg");
+    -fx-background-image: url("img/background.jpg");
 }
 
 #loginPane {
-    -fx-background-image: url("img/background3.jpg");
+    -fx-background-image: url("img/background.jpg");
 }

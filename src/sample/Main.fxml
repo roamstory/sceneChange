@@ -55,21 +55,21 @@
                 <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
               </rowConstraints>
                <children>
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="1" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="2" GridPane.columnIndex="1" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="3" GridPane.columnIndex="2" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="4" GridPane.rowIndex="1" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="7" GridPane.rowIndex="2" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="DEL" GridPane.rowIndex="3" />
-                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="3" />
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="1" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="2" GridPane.columnIndex="1" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="3" GridPane.columnIndex="2" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="4" GridPane.rowIndex="1" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="6" GridPane.columnIndex="2" GridPane.rowIndex="1" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="5" GridPane.columnIndex="1" GridPane.rowIndex="1" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="7" GridPane.rowIndex="2" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="8" GridPane.columnIndex="1" GridPane.rowIndex="2" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="9" GridPane.columnIndex="2" GridPane.rowIndex="2" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="0" GridPane.columnIndex="1" GridPane.rowIndex="3" onAction="#handleBtnAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="DEL" GridPane.rowIndex="3" onAction="#handleBtnDelAction"/>
+                  <JFXButton prefHeight="33.0" prefWidth="74.0" text="OK" GridPane.columnIndex="2" GridPane.rowIndex="3" onAction="#handleBtnOkAction"/>
                </children>
             </GridPane>
-            <JFXTextField fx:id="benefitData" alignment="CENTER" layoutX="88.0" layoutY="256.0" prefHeight="29.0" prefWidth="129.0" text="11">
+            <JFXTextField fx:id="benefitData" alignment="CENTER" layoutX="88.0" layoutY="256.0" prefHeight="29.0" prefWidth="129.0" text="">
                <font>
                   <Font size="24.0" />
                </font>
