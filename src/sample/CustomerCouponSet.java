@@ -11,7 +11,7 @@ public class CustomerCouponSet {
         ObservableList<CustomerCouponVO> customerCouponList = FXCollections.observableArrayList();
 
         for (int i = 0; i < data.getInt("couponCount"); i++) {
-            JSONObject couponList =  data.getJSONObject("couponList"+i);
+            JSONObject couponList =  data.getJSONObject("coupon"+i);
 
             String type = couponList.getString("type");
             String customer_couponproduct_no = couponList.getString("customer_couponproduct_no");

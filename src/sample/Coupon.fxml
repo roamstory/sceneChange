@@ -66,7 +66,10 @@
                               <Label fx:id="couponPeriod" prefHeight="25.0" prefWidth="226.0" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                            </children>
                         </GridPane>
-                        <JFXButton fx:id="insertUse" layoutX="110.0" layoutY="101.0" prefHeight="33.0" prefWidth="88.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="사용" textFill="WHITE" />
+                        <JFXButton fx:id="insertUse" onAction="#insertDataAction" layoutX="110.0" layoutY="101.0" prefHeight="33.0" prefWidth="88.0" style="-fx-background-color: #ea1ab6; -fx-background-radius: 50px;" text="사용" textFill="WHITE" />
+                         <Label fx:id="couponNo" layoutX="14.0" layoutY="80.0" />
+                         <Label fx:id="type" layoutX="14.0" layoutY="101.0" />
+                         <Label fx:id="couponUseYn" layoutX="14.0" layoutY="119.0" />
                      </children>
                   </AnchorPane>
               </items>
@@ -76,6 +79,7 @@
                   <Font name="System Bold" size="24.0" />
                </font>
             </Label>
+          <Label fx:id="productImageUrl" layoutX="33.0" layoutY="539.0" />
       </children>
       </Pane>
    </children>

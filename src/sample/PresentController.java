@@ -57,13 +57,6 @@ public class PresentController extends SocketConnect implements Initializable {
 
     }
 
-    public void handleBtnOkAction(ActionEvent e) {
-
-        CustomerGiftVO customerGiftVO = tableView.getSelectionModel().getSelectedItem();
-        System.out.println("TableView 스마트폰: " + customerGiftVO.getGiftProductName());
-        System.out.println("TableView 이미지: " + customerGiftVO.getGiftFinishDate());
-    }
-
     @FXML
     void maintoPresentAction(ActionEvent event) {
 
