@@ -1,6 +1,7 @@
 package sample;
 
 import com.jfoenix.controls.JFXButton;
+import com.jfoenix.controls.JFXTreeTableView;
 import io.socket.client.Ack;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -36,7 +37,6 @@ public class PresentController extends SocketConnect implements Initializable {
     CustomerGiftSet customerGiftSet = new CustomerGiftSet();
 
     ObservableList<CustomerGiftVO> customerGiftList = FXCollections.observableArrayList();
-    Popup popup;
 
     @FXML private TableView<CustomerGiftVO> tableView;
     @FXML private ImageView imageView;

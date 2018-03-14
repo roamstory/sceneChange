@@ -83,9 +83,15 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     }
 
     public void handleBtnAction(ActionEvent e) {
-        if (customerNumber.getText().length() < 12) {
+        if (customerNumber.getText().length() < 13) {
             String buttonText = ((JFXButton)e.getSource()).getText();
-            customerNumber.setText(customerNumber.getText() + buttonText);
+            if (customerNumber.getText().length() == 2) {
+                customerNumber.setText(customerNumber.getText() + buttonText + '-');
+            } else if (customerNumber.getText().length() == 7) {
+                customerNumber.setText(customerNumber.getText() + buttonText + '-');
+            } else {
+                customerNumber.setText(customerNumber.getText() + buttonText);
+            }
         }
     }
 
@@ -147,7 +153,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         try {
             storeVO = deviceInfoXmlParse.parseXML();
 
-            String phoneNumber = customerNumber.getText();
+            String phoneNumber = customerNumber.getText().replace("-","");
             String wideManagerId = storeVO.getWideManagerId();
             String mallSocketId = storeVO.getMallSocketId();
             String deviceId = storeVO.getDeviceId();

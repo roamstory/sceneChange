@@ -95,6 +95,7 @@ public class MainController extends SocketConnect implements Initializable {
 
     }
 
+    // 고객정보 세팅
     void setData(CustomerVO customerVO) {
         System.out.println("customerVO" + customerVO);
         System.out.println("Main" + storeVO.toString());
@@ -121,6 +122,7 @@ public class MainController extends SocketConnect implements Initializable {
         }
     }
 
+    // 고객조회화면 이동
     @FXML
     void searchCustomertoMainAction(ActionEvent event) {
 
@@ -148,6 +150,7 @@ public class MainController extends SocketConnect implements Initializable {
         }
     }
 
+    // 선물함 이동
     @FXML
     void openPresentAction(ActionEvent event) {
         JSONObject searchCustomerInfo = new JSONObject();
@@ -236,6 +239,7 @@ public class MainController extends SocketConnect implements Initializable {
         });
     }
 
+    // 쿠폰함 이동
     @FXML
     void openCouponAction(ActionEvent e) {
         JSONObject searchCustomerInfo = new JSONObject();
@@ -328,12 +332,17 @@ public class MainController extends SocketConnect implements Initializable {
     }
 
     public void handleBtnAction(ActionEvent e) {
-        if (benefitData.getText().length() < 2) {
+        if (benefitData.getText().length() < 13) {
             String buttonText = ((JFXButton)e.getSource()).getText();
-            benefitData.setText(benefitData.getText() + buttonText);
+            if (benefitData.getText().length() == 2) {
+                benefitData.setText(benefitData.getText() + buttonText + '-');
+            } else if (benefitData.getText().length() == 7) {
+                benefitData.setText(benefitData.getText() + buttonText + '-');
+            } else {
+                benefitData.setText(benefitData.getText() + buttonText);
+            }
         }
     }
-
 
     public void handleBtnOkAction(ActionEvent e) {
         System.out.println(benefitData.getText());
