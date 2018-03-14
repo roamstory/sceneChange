@@ -5,6 +5,7 @@ import com.jfoenix.controls.JFXTextField;
 import io.socket.client.Ack;
 import io.socket.emitter.Emitter;
 import javafx.application.Platform;
+import javafx.beans.value.ChangeListener;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -17,6 +18,8 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -74,7 +77,7 @@ public class MainController extends SocketConnect implements Initializable {
     private Label sex;
 
     @FXML
-    private Label grade;
+    private ImageView gradeImage;
 
     @FXML
     private Label benefitType;
@@ -92,18 +95,28 @@ public class MainController extends SocketConnect implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-
+        benefitData.setDisable(true);
     }
 
     // 고객정보 세팅
     void setData(CustomerVO customerVO) {
+
+        Image vipImage =  new Image(getClass().getResourceAsStream("img/vip.png"));
+        Image basicImage =  new Image(getClass().getResourceAsStream("img/basic.png"));
         System.out.println("customerVO" + customerVO);
         System.out.println("Main" + storeVO.toString());
         birthday.setText(customerVO.getWideCustomerBirth());
         benefitVal.setText(customerVO.getMembershipCustomerBenefitValue()+"개");
-        phone.setText(customerVO.getMembershipCustomerPhone());
+        String phoneSubstring1 = customerVO.getMembershipCustomerPhone().substring(0,3);
+        String phoneSubstring2 = customerVO.getMembershipCustomerPhone().substring(3,7);
+        String phoneSubstring3 = customerVO.getMembershipCustomerPhone().substring(7);
+        phone.setText(phoneSubstring1 + "-" + phoneSubstring2 + "-" + phoneSubstring3);
         name.setText(customerVO.getWideCustomerName());
-        grade.setText(customerVO.getMembershipCustomerGrade());
+        if (customerVO.getMembershipCustomerGrade().equals("VIP")) {
+            gradeImage.setImage(vipImage);
+        } else {
+            gradeImage.setImage(basicImage);
+        }
 
         if (customerVO.getWideCustomerSex().equals(0)) {
             sex.setText("(남)");
@@ -332,15 +345,10 @@ public class MainController extends SocketConnect implements Initializable {
     }
 
     public void handleBtnAction(ActionEvent e) {
-        if (benefitData.getText().length() < 13) {
+        if (benefitData.getText().length() < 2) {
             String buttonText = ((JFXButton)e.getSource()).getText();
-            if (benefitData.getText().length() == 2) {
-                benefitData.setText(benefitData.getText() + buttonText + '-');
-            } else if (benefitData.getText().length() == 7) {
-                benefitData.setText(benefitData.getText() + buttonText + '-');
-            } else {
-                benefitData.setText(benefitData.getText() + buttonText);
-            }
+            String banefitVal = benefitData.getText().replaceFirst("^0+(?!$)", "");
+            benefitData.setText(banefitVal + buttonText);
         }
     }
 
@@ -358,111 +366,220 @@ public class MainController extends SocketConnect implements Initializable {
 
     @FXML
     void insertBenefitDataAction(ActionEvent e) {
-        
-        if(!benefitData.getText().equals("") || !benefitData.getText().equals("0")) {
-            JSONObject benefitInsertInfo = new JSONObject();
-            try {
-                benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
-                benefitInsertInfo.put("stampSavingCnt", benefitData.getText());
-                benefitInsertInfo.put("stampGoal", storeVO.getStampGoal());
-                benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
-                benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
-                benefitInsertInfo.put("couponNo", storeVO.getBenefitCouponNo());
-                benefitInsertInfo.put("mallSocketId", storeVO.getMallSocketId());
-            } catch (JSONException jsonEx) {
-                jsonEx.printStackTrace();
-            }
+        if (storeVO.getBenefitTypeCode().equals("S")) {
+            System.out.println("benefitData.getText() :::" + benefitData.getText());
+            System.out.println("benefitData.getText() :::" + benefitData.getText().equals("0"));
+            System.out.println("benefitData.getText() :::" + benefitData.getText().equals(0));
 
-            System.out.println(benefitInsertInfo);
-            mSocket.emit("benefitStampUpdate", benefitInsertInfo, new Ack() {
-                @Override
-                public void call(Object... args) {
-                    JSONObject data = (JSONObject) args[0];
-                    String responseVal = "";
-                    try {
-                        responseVal = data.getString("responseCode");
-                        System.out.println("-----------------------");
-                        System.out.println("Data :::" + data);
-                        System.out.println("Data :::" + data.getString("responseCode"));
-                        System.out.println("-----------------------");
-                        customerVO.setMembershipCustomerBenefitValue(Integer.parseInt(data.getString("stampNowCnt")));
-                        System.out.println(customerVO);
-                    } catch (Exception e) {
-                        System.out.println(e);
-                    }
-
-                    if (responseVal.equals("1") || responseVal.equals("2")) {
-                        Platform.runLater(() -> {
-                            try {
-                                Stage stage = new Stage();
-                                stage = (Stage) btnInsertBenefitData.getScene().getWindow();
-                                FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
-                                Parent root = loader.load();
-                                MainController mainController = loader.<MainController>getController();
-                                storeVO = deviceInfoXmlParse.parseXML();
-                                mainController.setStoreVO(storeVO);
-                                mainController.setCustomerVO(customerVO);
-                                mainController.setCustomerCouponList(customerCouponList);
-                                mainController.setData(customerVO);
-                                Scene scene = new Scene(root);
-                                stage.setScene(scene);
-                            } catch (Exception e) {
-                                System.out.println("File Not Found >>" + e);
-                                e.printStackTrace();
-                            }
-                            Thread.interrupted();
-                        });
-
-                    } else {
-                        Platform.runLater(() -> {
-                            try {
-                                Stage dialog = new Stage(StageStyle.UTILITY);
-                                dialog.initModality(Modality.WINDOW_MODAL);
-                                dialog.initOwner(stage);
-                                dialog.setTitle("확인");
-
-                                Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
-                                Label txtTitle = (Label) parent.lookup("#txtTitle");
-                                txtTitle.setText("적립 시 오류가 발생했습니다.");
-                                Button btnOk = (Button) parent.lookup("#btnOk");
-                                btnOk.setOnAction(event->dialog.close());
-                                Scene scene = new Scene(parent);
-
-                                dialog.setScene(scene);
-                                dialog.setResizable(false);
-                                dialog.show();
-                            }
-                            catch (Exception e) {
-                                System.out.println(e);
-                            }
-                        });
-                    }
-
-                }
-            });
-        } else {
-            Platform.runLater(() -> {
+            if(!benefitData.getText().equals("") && !benefitData.getText().equals("0")) {
+                JSONObject benefitInsertInfo = new JSONObject();
                 try {
-                    Stage dialog = new Stage(StageStyle.UTILITY);
-                    dialog.initModality(Modality.WINDOW_MODAL);
-                    dialog.initOwner(stage);
-                    dialog.setTitle("확인");
-
-                    Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
-                    Label txtTitle = (Label) parent.lookup("#txtTitle");
-                    txtTitle.setText("정확히 입력해 주세요.");
-                    Button btnOk = (Button) parent.lookup("#btnOk");
-                    btnOk.setOnAction(event->dialog.close());
-                    Scene scene = new Scene(parent);
-
-                    dialog.setScene(scene);
-                    dialog.setResizable(false);
-                    dialog.show();
+                    benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
+                    benefitInsertInfo.put("stampSavingCnt", benefitData.getText().replaceFirst("^0+(?!$)", ""));
+                    benefitInsertInfo.put("stampGoal", storeVO.getStampGoal());
+                    benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
+                    benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
+                    benefitInsertInfo.put("couponNo", storeVO.getBenefitCouponNo());
+                    benefitInsertInfo.put("mallSocketId", storeVO.getMallSocketId());
+                } catch (JSONException jsonEx) {
+                    jsonEx.printStackTrace();
                 }
-                catch (Exception ex) {
-                    System.out.println(ex);
+
+                System.out.println(benefitInsertInfo);
+                mSocket.emit("benefitStampUpdate", benefitInsertInfo, new Ack() {
+                    @Override
+                    public void call(Object... args) {
+                        JSONObject data = (JSONObject) args[0];
+                        String responseVal = "";
+                        try {
+                            responseVal = data.getString("responseCode");
+                            System.out.println("-----------------------");
+                            System.out.println("Data :::" + data);
+                            System.out.println("Data :::" + data.getString("responseCode"));
+                            System.out.println("-----------------------");
+                            customerVO.setMembershipCustomerBenefitValue(Integer.parseInt(data.getString("stampNowCnt")));
+                            System.out.println(customerVO);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+
+                        if (responseVal.equals("1") || responseVal.equals("2")) {
+                            Platform.runLater(() -> {
+                                try {
+                                    Stage stage = new Stage();
+                                    stage = (Stage) btnInsertBenefitData.getScene().getWindow();
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+                                    Parent root = loader.load();
+                                    MainController mainController = loader.<MainController>getController();
+                                    storeVO = deviceInfoXmlParse.parseXML();
+                                    mainController.setStoreVO(storeVO);
+                                    mainController.setCustomerVO(customerVO);
+                                    mainController.setCustomerCouponList(customerCouponList);
+                                    mainController.setData(customerVO);
+                                    Scene scene = new Scene(root);
+                                    stage.setScene(scene);
+                                } catch (Exception e) {
+                                    System.out.println("File Not Found >>" + e);
+                                    e.printStackTrace();
+                                }
+                                Thread.interrupted();
+                            });
+
+                        } else {
+                            Platform.runLater(() -> {
+                                try {
+                                    Stage dialog = new Stage(StageStyle.UTILITY);
+                                    dialog.initModality(Modality.WINDOW_MODAL);
+                                    dialog.initOwner(stage);
+                                    dialog.setTitle("확인");
+
+                                    Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                                    Label txtTitle = (Label) parent.lookup("#txtTitle");
+                                    txtTitle.setText("적립 시 오류가 발생했습니다.");
+                                    Button btnOk = (Button) parent.lookup("#btnOk");
+                                    btnOk.setOnAction(event->dialog.close());
+                                    Scene scene = new Scene(parent);
+
+                                    dialog.setScene(scene);
+                                    dialog.setResizable(false);
+                                    dialog.show();
+                                }
+                                catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                            });
+                        }
+
+                    }
+                });
+            } else {
+                Platform.runLater(() -> {
+                    try {
+                        Stage dialog = new Stage(StageStyle.UTILITY);
+                        dialog.initModality(Modality.WINDOW_MODAL);
+                        dialog.initOwner(stage);
+                        dialog.setTitle("확인");
+
+                        Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                        Label txtTitle = (Label) parent.lookup("#txtTitle");
+                        txtTitle.setText("정확히 입력해 주세요.");
+                        Button btnOk = (Button) parent.lookup("#btnOk");
+                        btnOk.setOnAction(event->dialog.close());
+                        Scene scene = new Scene(parent);
+
+                        dialog.setScene(scene);
+                        dialog.setResizable(false);
+                        dialog.show();
+                    }
+                    catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                });
+            }
+        } else {
+            if(!benefitData.getText().equals("") && !benefitData.getText().equals("0")) {
+                JSONObject benefitInsertInfo = new JSONObject();
+                try {
+                    benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
+                    benefitInsertInfo.put("pointSavingCnt", benefitData.getText());
+                    benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
+                    benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
+                    benefitInsertInfo.put("mallSocketId", storeVO.getMallSocketId());
+                } catch (JSONException jsonEx) {
+                    jsonEx.printStackTrace();
                 }
-            });
+
+                System.out.println(benefitInsertInfo);
+                mSocket.emit("benefitPointUpdate", benefitInsertInfo, new Ack() {
+                    @Override
+                    public void call(Object... args) {
+                        JSONObject data = (JSONObject) args[0];
+                        String responseVal = "";
+                        try {
+                            responseVal = data.getString("responseCode");
+                            System.out.println("-----------------------");
+                            System.out.println("Data :::" + data);
+                            System.out.println("Data :::" + data.getString("responseCode"));
+                            System.out.println("-----------------------");
+                            customerVO.setMembershipCustomerBenefitValue(Integer.parseInt(data.getString("pointAllCnt")));
+                            System.out.println(customerVO);
+                        } catch (Exception e) {
+                            System.out.println(e);
+                        }
+
+                        if (responseVal.equals("1") || responseVal.equals("2")) {
+                            Platform.runLater(() -> {
+                                try {
+                                    Stage stage = new Stage();
+                                    stage = (Stage) btnInsertBenefitData.getScene().getWindow();
+                                    FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
+                                    Parent root = loader.load();
+                                    MainController mainController = loader.<MainController>getController();
+                                    storeVO = deviceInfoXmlParse.parseXML();
+                                    mainController.setStoreVO(storeVO);
+                                    mainController.setCustomerVO(customerVO);
+                                    mainController.setCustomerCouponList(customerCouponList);
+                                    mainController.setData(customerVO);
+                                    Scene scene = new Scene(root);
+                                    stage.setScene(scene);
+                                } catch (Exception e) {
+                                    System.out.println("File Not Found >>" + e);
+                                    e.printStackTrace();
+                                }
+                                Thread.interrupted();
+                            });
+
+                        } else {
+                            Platform.runLater(() -> {
+                                try {
+                                    Stage dialog = new Stage(StageStyle.UTILITY);
+                                    dialog.initModality(Modality.WINDOW_MODAL);
+                                    dialog.initOwner(stage);
+                                    dialog.setTitle("확인");
+
+                                    Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                                    Label txtTitle = (Label) parent.lookup("#txtTitle");
+                                    txtTitle.setText("적립 시 오류가 발생했습니다.");
+                                    Button btnOk = (Button) parent.lookup("#btnOk");
+                                    btnOk.setOnAction(event->dialog.close());
+                                    Scene scene = new Scene(parent);
+
+                                    dialog.setScene(scene);
+                                    dialog.setResizable(false);
+                                    dialog.show();
+                                }
+                                catch (Exception e) {
+                                    System.out.println(e);
+                                }
+                            });
+                        }
+
+                    }
+                });
+            } else {
+                Platform.runLater(() -> {
+                    try {
+                        Stage dialog = new Stage(StageStyle.UTILITY);
+                        dialog.initModality(Modality.WINDOW_MODAL);
+                        dialog.initOwner(stage);
+                        dialog.setTitle("확인");
+
+                        Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                        Label txtTitle = (Label) parent.lookup("#txtTitle");
+                        txtTitle.setText("정확히 입력해 주세요.");
+                        Button btnOk = (Button) parent.lookup("#btnOk");
+                        btnOk.setOnAction(event->dialog.close());
+                        Scene scene = new Scene(parent);
+
+                        dialog.setScene(scene);
+                        dialog.setResizable(false);
+                        dialog.show();
+                    }
+                    catch (Exception ex) {
+                        System.out.println(ex);
+                    }
+                });
+            }
         }
     }
 
