@@ -23,6 +23,8 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import javax.print.DocFlavor;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -47,6 +49,7 @@ public class PresentController extends SocketConnect implements Initializable {
     @FXML private Label giftNo;
     @FXML private Label type;
     @FXML private Label giftUseYn;
+    @FXML private Label productImageUrl;
     @FXML private Button insertUse;
 
     @Override
@@ -103,12 +106,16 @@ public class PresentController extends SocketConnect implements Initializable {
         if (!giftUseYn.getText().equals("사용")) {
             Platform.runLater(() -> {
                 try {
+                    String productImage = productImageUrl.getText();
                     Stage dialog = new Stage(StageStyle.UTILITY);
                     dialog.initModality(Modality.WINDOW_MODAL);
                     dialog.initOwner(stage);
-                    dialog.setTitle("확인");
-
+                    dialog.setTitle("선물 사용여부 확인");
                     Parent parent = FXMLLoader.load(getClass().getResource("present_dialog.fxml"));
+                    System.out.println("productImage >" + productImage);
+
+                    ImageView productImageView = (ImageView) parent.lookup("#productImageView");
+                    productImageView.setImage(new Image(productImage));
                     Label productName = (Label) parent.lookup("#productName");
                     productName.setText(presentName.getText());
                     Label productPeriod = (Label) parent.lookup("#productPeriod");
@@ -128,6 +135,7 @@ public class PresentController extends SocketConnect implements Initializable {
                     dialog.show();
                 }
                 catch (Exception e) {
+                    e.printStackTrace();
                     System.out.println(e);
                 }
             });
@@ -271,9 +279,11 @@ public class PresentController extends SocketConnect implements Initializable {
                     giftNo.setText(newValue.getGiftNo());
                     type.setText(newValue.getType());
                     giftUseYn.setText(newValue.getGiftUseYn());
+                    productImageUrl.setText(newValue.getGiftProductImageUrl());
                     giftNo.setVisible(false);
                     type.setVisible(false);
                     giftUseYn.setVisible(false);
+                    productImageUrl.setVisible(false);
                     presentName.setText(newValue.getGiftProductName());
                     presentPeriod.setText(newValue.getGiftBeginDate() + " ~ " + newValue.getGiftFinishDate());
                 }

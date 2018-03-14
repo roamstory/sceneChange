@@ -6,17 +6,19 @@
 <?import javafx.scene.layout.AnchorPane?>
 
 <?import javafx.scene.image.Image?>
-<AnchorPane prefHeight="194.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
+<?import com.jfoenix.controls.JFXDialogLayout?>
+<?import com.jfoenix.controls.JFXButton?>
+<JFXDialogLayout prefHeight="194.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/8.0.141" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <ImageView id="productImageView" fitHeight="112.0" fitWidth="104.0" layoutX="15" layoutY="15" preserveRatio="true">
          <image>
             <Image url="http://eevcrwzwnqin572958.cdn.ntruss.com/uS0mgA9Z9lo9RJzGPt72QXy4xZVOzvyE.jpg" />
          </image>
       </ImageView>
-      <Button id="btnOk" layoutX="144.0" layoutY="153.0" text="사용" />
+      <JFXButton id="btnOk" layoutX="144.0" layoutY="153.0" text="사용" />
       <Label id="productName" layoutX="144.0" layoutY="23.0" prefHeight="27.0" prefWidth="233.0" />
       <Label id="productPeriod" layoutX="146.0" layoutY="58.0" prefHeight="27.0" prefWidth="242.0" />
-      <Button id="btnCancel" layoutX="213.0" layoutY="153.0" text="취소" />
+      <JFXButton id="btnCancel" layoutX="213.0" layoutY="153.0" text="취소" />
       <Label id="productPeriod" alignment="CENTER" layoutX="128.0" layoutY="97.0" prefHeight="27.0" prefWidth="144.0" text="사용하시겠습니까?" />
    </children>
-</AnchorPane>
+</JFXDialogLayout>
