@@ -181,6 +181,7 @@ public class PresentController extends SocketConnect implements Initializable {
                 public void call(Object... args) {
                     JSONObject data = (JSONObject) args[0];
                     String responseVal = "";
+                    Boolean useOk = false;
                     try {
                         JSONObject giftList = new JSONObject();
                         responseVal = data.getString("responseCode");
@@ -217,6 +218,7 @@ public class PresentController extends SocketConnect implements Initializable {
                             Thread.interrupted();
                         });
 
+                        useOk = true;
                     } else {
                         Platform.runLater(() -> {
                             try {
@@ -228,6 +230,31 @@ public class PresentController extends SocketConnect implements Initializable {
                                 Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
                                 Label txtTitle = (Label) parent.lookup("#txtTitle");
                                 txtTitle.setText("선물 사용 시 오류가 발생했습니다.");
+                                Button btnOk = (Button) parent.lookup("#btnOk");
+                                btnOk.setOnAction(event->dialog.close());
+                                Scene scene = new Scene(parent);
+
+                                dialog.setScene(scene);
+                                dialog.setResizable(false);
+                                dialog.show();
+                            }
+                            catch (Exception e) {
+                                System.out.println(e);
+                            }
+                        });
+                    }
+
+                    if (useOk == true) {
+                        Platform.runLater(() -> {
+                            try {
+                                Stage dialog = new Stage(StageStyle.UTILITY);
+                                dialog.initModality(Modality.WINDOW_MODAL);
+                                dialog.initOwner(stage);
+                                dialog.setTitle("확인");
+
+                                Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                                Label txtTitle = (Label) parent.lookup("#txtTitle");
+                                txtTitle.setText("선물이 사용되었습니다.");
                                 Button btnOk = (Button) parent.lookup("#btnOk");
                                 btnOk.setOnAction(event->dialog.close());
                                 Scene scene = new Scene(parent);

@@ -1,5 +1,7 @@
 package sample;
 
+import com.jfoenix.controls.JFXButton;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 import io.socket.client.Ack;
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -52,6 +54,7 @@ public class CouponController extends SocketConnect implements Initializable {
     @FXML private Label couponUseYn;
     @FXML private Label productImageUrl;
     @FXML private Button insertUse;
+    private String typeHide;
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -97,7 +100,7 @@ public class CouponController extends SocketConnect implements Initializable {
                     dialog.setTitle("쿠폰 사용여부 확인");
                     Parent parent = FXMLLoader.load(getClass().getResource("coupon_dialog.fxml"));
                     System.out.println("productImage >" + productImage);
-
+                    typeHide = type.getText();
                     ImageView productImageView = (ImageView) parent.lookup("#productImageView");
                     productImageView.setImage(new Image(productImage));
                     Label productName = (Label) parent.lookup("#productName");
@@ -151,13 +154,14 @@ public class CouponController extends SocketConnect implements Initializable {
 
     }
 
-    public void goToCouponUse() {
+    @FXML
+    void couponUse(ActionEvent ev) {
         System.out.println("쿠폰 사용 하기");
         JSONObject benefitInsertInfo = new JSONObject();
         try {
-            System.out.println(type.getText());
+            System.out.println(typeHide);
             benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
-            benefitInsertInfo.put("couponNo", couponNo.getText());
+            benefitInsertInfo.put("customer_couponproduct_no", couponNo.getText());
             benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
             benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
             benefitInsertInfo.put("benefitType", storeVO.getBenefitTypeCode());
@@ -172,6 +176,7 @@ public class CouponController extends SocketConnect implements Initializable {
             public void call(Object... args) {
                 JSONObject data = (JSONObject) args[0];
                 String responseVal = "";
+                Boolean useOk = false;
                 try {
                     JSONObject couponList = new JSONObject();
                     responseVal = data.getString("responseCode");
@@ -205,8 +210,8 @@ public class CouponController extends SocketConnect implements Initializable {
                             System.out.println("File Not Found >>" + e);
                             e.printStackTrace();
                         }
-                        Thread.interrupted();
                     });
+                    useOk = true;
 
                 } else {
                     Platform.runLater(() -> {
@@ -233,6 +238,141 @@ public class CouponController extends SocketConnect implements Initializable {
                     });
                 }
 
+                if (useOk == true) {
+                    Platform.runLater(() -> {
+                        try {
+                            Stage dialog = new Stage(StageStyle.UTILITY);
+                            dialog.initModality(Modality.WINDOW_MODAL);
+                            dialog.initOwner(stage);
+                            dialog.setTitle("확인");
+
+                            Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                            Label txtTitle = (Label) parent.lookup("#txtTitle");
+                            txtTitle.setText("쿠폰이 사용되었습니다.");
+                            Button btnOk = (Button) parent.lookup("#btnOk");
+                            btnOk.setOnAction(event->dialog.close());
+                            Scene scene = new Scene(parent);
+
+                            dialog.setScene(scene);
+                            dialog.setResizable(false);
+                            dialog.show();
+                        }
+                        catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+                }
+            }
+        });
+    }
+
+    public void goToCouponUse() {
+        System.out.println("쿠폰 사용 하기");
+        JSONObject benefitInsertInfo = new JSONObject();
+        try {
+            System.out.println(type.getText());
+            benefitInsertInfo.put("membershipCustomerNo", customerVO.getMembershipCustomerNo());
+            benefitInsertInfo.put("customer_couponproduct_no", couponNo.getText());
+            benefitInsertInfo.put("wideManagerId", storeVO.getWideManagerId());
+            benefitInsertInfo.put("phoneNumber", customerVO.getMembershipCustomerPhone());
+            benefitInsertInfo.put("benefitType", storeVO.getBenefitTypeCode());
+            benefitInsertInfo.put("mallSocketId", storeVO.getMallSocketId());
+        } catch (JSONException jsonEx) {
+            jsonEx.printStackTrace();
+        }
+
+        System.out.println(benefitInsertInfo);
+        mSocket.emit("couponUpdate", benefitInsertInfo, new Ack() {
+            @Override
+            public void call(Object... args) {
+                JSONObject data = (JSONObject) args[0];
+                String responseVal = "";
+                Boolean useOk = false;
+                try {
+                    JSONObject couponList = new JSONObject();
+                    responseVal = data.getString("responseCode");
+                    System.out.println("-----------------------");
+                    System.out.println("Data 1:::" + data.getString("couponList"));
+                    System.out.println("Data 2:::" + data.getString("responseCode"));
+                    System.out.println("-----------------------");
+                    couponList = data.getJSONObject("couponList");
+                    couponList.put("couponCount" , data.getString("couponCount"));
+                    customerCouponList = customerCouponSet.customerCouponSetVO(couponList);
+                    System.out.println(">>>>>>" + customerCouponList);
+                } catch (Exception e) {
+                    System.out.println(e);
+                }
+
+                if (responseVal.equals("1") || responseVal.equals("2")) {
+                    Platform.runLater(() -> {
+                        try {
+                            Stage stage = new Stage();
+                            stage = (Stage) insertUse.getScene().getWindow();
+                            FXMLLoader loader = new FXMLLoader(getClass().getResource("Coupon.fxml"));
+                            Parent root = loader.load();
+                            CouponController couponController = loader.<CouponController>getController();
+                            storeVO = deviceInfoXmlParse.parseXML();
+                            couponController.setStoreVO(storeVO);
+                            couponController.setCustomerVO(customerVO);
+                            couponController.setCustomerCouponList(customerCouponList);
+                            Scene scene = new Scene(root);
+                            stage.setScene(scene);
+                        } catch (Exception e) {
+                            System.out.println("File Not Found >>" + e);
+                            e.printStackTrace();
+                        }
+                    });
+                    useOk = true;
+
+                } else {
+                    Platform.runLater(() -> {
+                        try {
+                            Stage dialog = new Stage(StageStyle.UTILITY);
+                            dialog.initModality(Modality.WINDOW_MODAL);
+                            dialog.initOwner(stage);
+                            dialog.setTitle("확인");
+
+                            Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                            Label txtTitle = (Label) parent.lookup("#txtTitle");
+                            txtTitle.setText("쿠폰 사용 시 오류가 발생했습니다.");
+                            Button btnOk = (Button) parent.lookup("#btnOk");
+                            btnOk.setOnAction(event->dialog.close());
+                            Scene scene = new Scene(parent);
+
+                            dialog.setScene(scene);
+                            dialog.setResizable(false);
+                            dialog.show();
+                        }
+                        catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+                }
+
+                if (useOk == true) {
+                    Platform.runLater(() -> {
+                        try {
+                            Stage dialog = new Stage(StageStyle.UTILITY);
+                            dialog.initModality(Modality.WINDOW_MODAL);
+                            dialog.initOwner(stage);
+                            dialog.setTitle("확인");
+
+                            Parent parent = FXMLLoader.load(getClass().getResource("custom_dialog.fxml"));
+                            Label txtTitle = (Label) parent.lookup("#txtTitle");
+                            txtTitle.setText("쿠폰이 사용되었습니다.");
+                            Button btnOk = (Button) parent.lookup("#btnOk");
+                            btnOk.setOnAction(event->dialog.close());
+                            Scene scene = new Scene(parent);
+
+                            dialog.setScene(scene);
+                            dialog.setResizable(false);
+                            dialog.show();
+                        }
+                        catch (Exception e) {
+                            System.out.println(e);
+                        }
+                    });
+                }
             }
         });
     }
@@ -274,13 +414,19 @@ public class CouponController extends SocketConnect implements Initializable {
                     type.setText(newValue.getType());
                     couponUseYn.setText(newValue.getCouponUseYn());
                     System.out.println(newValue.getProduct_image_url()+">>>");
-                    productImageUrl.setText(newValue.getProduct_image_url());
+                    productImageUrl.setText(newValue.getCoupon_image_url());
                     couponNo.setVisible(false);
                     type.setVisible(false);
                     couponUseYn.setVisible(false);
                     productImageUrl.setVisible(false);
                     couponName.setText(newValue.getCoupon_title());
-                    couponProduct.setText(newValue.getProduct_title());
+                    String typeName = "";
+                    if (newValue.getCoupon_discount_type_code() == "DCP") {
+                        typeName = "원";
+                    } else {
+                        typeName = "%";
+                    }
+                    couponProduct.setText(newValue.getProduct_title() + " " + newValue.getCoupon_discount_value() + typeName + "할인");
                     couponPeriod.setText(newValue.getCustomer_couponproduct_begin_date() + " ~ " + newValue.getCustomer_couponproduct_finish_date());
 
                 }

@@ -43,9 +43,9 @@ public class SocketConnect {
 
     static int interVal2 = 0;
 
-
-
-
+    /*
+     * Node Server 연결 시 해당 디바이스 연결
+     */
     static Emitter.Listener onConnect = new Emitter.Listener() {
         @Override
         public void call(Object... objects) {

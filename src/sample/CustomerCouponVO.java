@@ -10,6 +10,9 @@ public class CustomerCouponVO {
     private SimpleStringProperty coupon_title;
     private SimpleStringProperty product_title;
     private SimpleStringProperty product_image_url;
+    private SimpleStringProperty coupon_image_url;
+    private SimpleIntegerProperty coupon_discount_value;
+    private SimpleStringProperty coupon_discount_type_code;
     private SimpleIntegerProperty customer_couponproduct_use_code;
     private SimpleStringProperty customer_couponproduct_use_date;
     private SimpleStringProperty customer_couponproduct_begin_date;
@@ -23,6 +26,9 @@ public class CustomerCouponVO {
         this.coupon_title = new SimpleStringProperty();
         this.product_title = new SimpleStringProperty();
         this.product_image_url = new SimpleStringProperty();
+        this.coupon_image_url = new SimpleStringProperty();
+        this.coupon_discount_type_code = new SimpleStringProperty();
+        this.coupon_discount_value = new SimpleIntegerProperty();
         this.customer_couponproduct_use_code = new SimpleIntegerProperty();
         this.customer_couponproduct_use_date = new SimpleStringProperty();
         this.customer_couponproduct_begin_date = new SimpleStringProperty();
@@ -30,14 +36,18 @@ public class CustomerCouponVO {
         this.couponUseYn = new SimpleStringProperty();
 
     }
-    public CustomerCouponVO(String type, String customer_couponproduct_no, String coupon_title,String product_title, String product_image_url
-            , int customer_couponproduct_use_code, String customer_couponproduct_use_date,
+    public CustomerCouponVO(String type, String customer_couponproduct_no, String coupon_title,String product_title, String product_image_url,
+                            String coupon_image_url , int customer_couponproduct_use_code, String customer_couponproduct_use_date,
+                            String coupon_discount_type_code, int coupon_discount_value,
                             String customer_couponproduct_begin_date, String customer_couponproduct_finish_date, String couponUseYn) {
         this.type = new SimpleStringProperty(type);
         this.customer_couponproduct_no = new SimpleStringProperty(customer_couponproduct_no);
         this.coupon_title = new SimpleStringProperty(coupon_title);
         this.product_title = new SimpleStringProperty(product_title);
         this.product_image_url = new SimpleStringProperty(product_image_url);
+        this.coupon_image_url = new SimpleStringProperty(coupon_image_url);
+        this.coupon_discount_value = new SimpleIntegerProperty(coupon_discount_value);
+        this.coupon_discount_type_code = new SimpleStringProperty(coupon_discount_type_code);
         this.customer_couponproduct_use_code = new SimpleIntegerProperty(customer_couponproduct_use_code);
         this.customer_couponproduct_use_date = new SimpleStringProperty(customer_couponproduct_use_date);
         this.customer_couponproduct_begin_date = new SimpleStringProperty(customer_couponproduct_begin_date);
@@ -104,6 +114,42 @@ public class CustomerCouponVO {
 
     public void setProduct_image_url(String product_image_url) {
         this.product_image_url.set(product_image_url);
+    }
+
+    public String getCoupon_image_url() {
+        return coupon_image_url.get();
+    }
+
+    public SimpleStringProperty coupon_image_urlProperty() {
+        return coupon_image_url;
+    }
+
+    public void setCoupon_image_url(String coupon_image_url) {
+        this.coupon_image_url.set(coupon_image_url);
+    }
+
+    public int getCoupon_discount_value() {
+        return coupon_discount_value.get();
+    }
+
+    public SimpleIntegerProperty coupon_discount_valueProperty() {
+        return coupon_discount_value;
+    }
+
+    public void setCoupon_discount_value(int coupon_discount_value) {
+        this.coupon_discount_value.set(coupon_discount_value);
+    }
+
+    public String getCoupon_discount_type_code() {
+        return coupon_discount_type_code.get();
+    }
+
+    public SimpleStringProperty coupon_discount_type_codeProperty() {
+        return coupon_discount_type_code;
+    }
+
+    public void setCoupon_discount_type_code(String coupon_discount_type_code) {
+        this.coupon_discount_type_code.set(coupon_discount_type_code);
     }
 
     public int getCustomer_couponproduct_use_code() {

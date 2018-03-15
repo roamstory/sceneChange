@@ -1,7 +1,0 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<JCompany>
-    <employee id="1" part="devlopment">
-        <name>Gildong Hong</name>
-        <age>25</age>
-    </employee>
-</JCompany>
