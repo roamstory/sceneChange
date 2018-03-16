@@ -345,10 +345,18 @@ public class MainController extends SocketConnect implements Initializable {
     }
 
     public void handleBtnAction(ActionEvent e) {
-        if (benefitData.getText().length() < 2) {
-            String buttonText = ((JFXButton)e.getSource()).getText();
-            String banefitVal = benefitData.getText().replaceFirst("^0+(?!$)", "");
-            benefitData.setText(banefitVal + buttonText);
+        if (storeVO.getBenefitTypeCode().equals("S")) {
+            if (benefitData.getText().length() < 2) {
+                String buttonText = ((JFXButton)e.getSource()).getText();
+                String banefitVal = benefitData.getText().replaceFirst("^0+(?!$)", "");
+                benefitData.setText(banefitVal + buttonText);
+            }
+        } else {
+            if (benefitData.getText().length() < 3) {
+                String buttonText = ((JFXButton)e.getSource()).getText();
+                String banefitVal = benefitData.getText().replaceFirst("^0+(?!$)", "");
+                benefitData.setText(banefitVal + buttonText);
+            }
         }
     }
 

@@ -56,7 +56,7 @@ public class SocketConnect {
                 storeInfo.put("deviceId", storeVO.getDeviceId());
                 storeInfo.put("mallSocketId", storeVO.getMallSocketId());
 
-                mSocket.emit("join", storeInfo , new Ack() {
+                mSocket.emit("deviceGroupJoin", storeInfo , new Ack() {
                     @Override
                     public void call(Object... args) {
                         System.out.println("join");
