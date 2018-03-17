@@ -19,10 +19,7 @@ public class SocketConnect {
 
     static Socket mSocket;
 
-    CustomerSearchController customerSearchController;
     static DeviceInfoXmlParse deviceInfoXmlParse =  new DeviceInfoXmlParse();
-
-    static Stage stage;
 
     public void socketConnect() {
         try {
@@ -31,7 +28,7 @@ public class SocketConnect {
             mSocket.on(Socket.EVENT_CONNECT, onConnect);
             mSocket.on("onNewMessage", onNewMessage);
             mSocket.on("connectedSuccess", connectedSuccess);
-            mSocket.on("customerInfoResponse", customerSearchController.customerInfoResponse);
+            mSocket.on("customerInfoResponse", customerInfoResponse);
             System.out.println("connect");
             mSocket.connect();
         } catch (URISyntaxException e) {
@@ -42,6 +39,23 @@ public class SocketConnect {
     }
 
     static int interVal2 = 0;
+
+    Emitter.Listener customerInfoResponse = new Emitter.Listener() {
+        @Override
+        public void call(final Object... args) {
+            CustomerSearchController customerSearchController = CustomerSearchController.getInstance();
+            String phoneNumber = "";
+            JSONObject data = (JSONObject)args[0];
+            try {
+                phoneNumber = data.getString("membershipCustomerPhone");
+                System.out.println(phoneNumber);
+                System.out.println("action2");
+            } catch (Exception e) {
+                System.out.println(e);
+            }
+            customerSearchController.searchCustomerAction2(phoneNumber);
+        }
+    };
 
     /*
      * Node Server 연결 시 해당 디바이스 연결

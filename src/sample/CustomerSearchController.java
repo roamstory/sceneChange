@@ -45,36 +45,32 @@ public class CustomerSearchController extends SocketConnect implements Initializ
     @FXML
     private JFXTextField customerNumber;
 
-    static Emitter.Listener customerInfoResponse = new Emitter.Listener() {
-        @Override
-        public void call(final Object... args) {
-            String phoneNumber = "";
-            JSONObject data = (JSONObject)args[0];
-            System.out.println("여기여기여기" + data);
-            try {
-                System.out.println("여기여기여기");
-                phoneNumber = data.getString("membershipCustomerPhone");
-                System.out.println(phoneNumber);
-            } catch (Exception e) {
-                System.out.println(e);
-            }
-            System.out.println("여기여기11여기");
-            action2(phoneNumber);
-            System.out.println("22222");
+    private static CustomerSearchController one;
+
+    public CustomerSearchController() {
+        System.out.println("현재 stage는 " +stage);
+    }
+
+    public CustomerSearchController(Stage stage) {
+        this.stage = stage;
+        System.out.println("현재 stage는 " +stage);
+    }
+
+    public static CustomerSearchController getInstance() {
+        if(one==null) {
+            System.out.println("여기가지?");
+            one = new CustomerSearchController();
         }
-    };
+        return one;
+    }
 
-
-    static void action2(String phoneNumber) {
+    void action2(String phoneNumber) {
         try {
-            System.out.println(">>>>1111");
-            FXMLLoader loader = new FXMLLoader(CustomerSearchController.class.getResource("CustomerSearch.fxml"));
-            CustomerSearchController customerSearchController = new CustomerSearchController();
-            customerSearchController.searchCustomerAction2(phoneNumber);
+            System.out.println("action2");
+            searchCustomerAction2(phoneNumber);
         }catch (Exception e) {
 
         }
-
     }
 
     @Override
@@ -114,6 +110,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                 Platform.runLater(()-> {
                     try {
                         Stage stage = new Stage();
+
                         stage = (Stage) logintoMain.getScene().getWindow();
                         String deviceId = storeVO.getDeviceId();
                         FXMLLoader loader;
@@ -187,8 +184,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                 if(responseVal.equals("1")) {
                     Platform.runLater(()-> {
                         try {
-                            Stage stage = new Stage();
-                            stage = (Stage)customerSearch.getScene().getWindow();
+                            Stage stage  = (Stage)customerSearch.getScene().getWindow();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                             Parent root = loader.load();
                             MainController mainController = loader.<MainController>getController();
@@ -201,9 +197,8 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                         } catch (IOException e) {
                             e.printStackTrace();
                             System.out.println(e.toString());
-                            System.out.println("failed");
+                            System.out.println("메인 이동 failed");
                         }
-                        Thread.interrupted();
                      });
 
                 } else {
@@ -279,7 +274,6 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                 if(responseVal.equals("1")) {
                     Platform.runLater(()-> {
                         try {
-                            Stage stage = new Stage();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("Main.fxml"));
                             Parent root = loader.load();
                             MainController mainController = loader.<MainController>getController();
@@ -292,8 +286,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             stage.show();
                         } catch (Exception e) {
                             e.printStackTrace();
-                            System.out.println(e.toString());
-                            System.out.println("failed");
+                            System.out.println("메인 이동화면 2failed");
                         }
                     });
 
@@ -309,5 +302,10 @@ public class CustomerSearchController extends SocketConnect implements Initializ
         this.storeVO = storeVO;
         System.out.println(this.storeVO.toString());
     }
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        System.out.println(this.stage.toString());
+    }
+
 
 }

@@ -46,6 +46,7 @@ public class Login extends Application  {
 //    }
 
     Stage stage;
+
     SocketConnect socketConnect = new SocketConnect();
 
     DeviceInfoXmlParse deviceInfoXmlParse = new DeviceInfoXmlParse();
@@ -116,8 +117,10 @@ public class Login extends Application  {
                                     FXMLLoader loader;
                                     loader =  new FXMLLoader(Login.class.getResource("CustomerSearch.fxml"));
                                     AnchorPane pane = loader.load();
-                                    CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
+                                    CustomerSearchController customerSearchController = new CustomerSearchController(stage);
+                                    customerSearchController = customerSearchController.getInstance();
                                     customerSearchController.setStoreVO(storeVO);
+                                    customerSearchController.setStage(stage);
                                     Scene scene = new Scene(pane);
                                     scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                                     stage.setResizable(true);
@@ -125,8 +128,8 @@ public class Login extends Application  {
                                     stage.setScene(scene);
                                     stage.show();
                                 } catch (Exception e) {
-                                    System.out.println(e);
-                                    System.out.println("failed");
+                                    e.printStackTrace();
+                                    System.out.println(">>>failed");
                                 }
                                 Thread.interrupted();
                             });

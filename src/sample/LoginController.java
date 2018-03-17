@@ -86,17 +86,16 @@ public class LoginController extends SocketConnect implements Initializable {
                             stage = (Stage) openLogin.getScene().getWindow();
                             FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerSearch.fxml"));
                             Parent root = loader.load();
-                            CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
+                            CustomerSearchController customerSearchController = CustomerSearchController.getInstance();
                             customerSearchController.setStoreVO(storeVO);
                             Scene scene = new Scene(root);
                             stage.setTitle("고객 조회");
                             scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                             stage.setScene(scene);
                         } catch (Exception e) {
-                            System.out.println(e);
-                            System.out.println("failed");
+                            e.printStackTrace();
+                            System.out.println("고객조회화면 failed");
                         }
-                        Thread.interrupted();
                     });
                 } else {
                     System.out.println("fail");
