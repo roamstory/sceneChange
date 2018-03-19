@@ -53,6 +53,9 @@ public class AdminLoginController extends SocketConnect implements Initializable
     private  Button openLogin;
 
     @FXML
+    private  Stage stage;
+
+    @FXML
     private JFXTextField username;
 
     @FXML
@@ -62,6 +65,15 @@ public class AdminLoginController extends SocketConnect implements Initializable
     private JFXTextField userDeviceId;
 
     int interVal1 = 0;
+
+    public AdminLoginController() {
+        System.out.println("현재 stage는 " +stage);
+    }
+
+    public AdminLoginController(Stage stage) {
+        this.stage = stage;
+        System.out.println("현재 stage는 " +stage);
+    }
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
@@ -112,7 +124,9 @@ public class AdminLoginController extends SocketConnect implements Initializable
                                                 stage = (Stage) openLogin.getScene().getWindow();
                                                 FXMLLoader loader = new FXMLLoader(getClass().getResource("CustomerSearch.fxml"));
                                                 Parent root = loader.load();
-                                                CustomerSearchController customerSearchController = loader.<CustomerSearchController>getController();
+                                                CustomerSearchController customerSearchController = new CustomerSearchController(stage);
+                                                customerSearchController = customerSearchController.getInstance();
+                                                customerSearchController.setStage(stage);
                                                 storeVO = deviceInfoXmlParse.parseXML();
                                                 customerSearchController.setStoreVO(storeVO);
                                                 Scene scene = new Scene(root);
@@ -140,4 +154,8 @@ public class AdminLoginController extends SocketConnect implements Initializable
         System.out.println(this.storeVO.toString());
     }
 
+    public void setStage(Stage stage) {
+        this.stage = stage;
+        System.out.println(this.stage.toString());
+    }
 }

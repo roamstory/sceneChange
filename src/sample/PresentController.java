@@ -197,7 +197,7 @@ public class PresentController extends SocketConnect implements Initializable {
                         System.out.println(e);
                     }
 
-                    if (responseVal.equals("1") || responseVal.equals("2")) {
+                    if (responseVal.equals("3")) {
                         Platform.runLater(() -> {
                             try {
                                 Stage stage = new Stage();

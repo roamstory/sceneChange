@@ -143,6 +143,8 @@ public class Login extends Application  {
                 FXMLLoader loader;
                 loader =  new FXMLLoader(Login.class.getResource("AdminLogin.fxml"));
                 AnchorPane pane = loader.load();
+                AdminLoginController adminLoginController = new AdminLoginController(stage);
+                adminLoginController.setStage(stage);
                 Scene scene = new Scene(pane);
                 scene.getStylesheets().addAll(Login.class.getResource("Platform.css").toExternalForm());
                 stage.setResizable(true);
