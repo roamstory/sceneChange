@@ -10,6 +10,7 @@ import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
 import javax.xml.transform.stream.StreamResult;
 import java.io.File;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class WriteInfoXml {
@@ -18,10 +19,12 @@ public class WriteInfoXml {
         File file = new File("deviceInfo.xml");
 
         if( file.exists() ){
-            if(file.delete()){
-                System.out.println("파일삭제 성공");
-            }else{
-                System.out.println("파일삭제 실패");
+            try {
+                FileWriter fw = new FileWriter(file);
+                fw.write("");
+                fw.close();
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }else{
             try {

@@ -110,7 +110,7 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                 Platform.runLater(()-> {
                     try {
                         Stage stage = new Stage();
-
+                        storeVO = deviceInfoXmlParse.parseXML();
                         stage = (Stage) logintoMain.getScene().getWindow();
                         String deviceId = storeVO.getDeviceId();
                         FXMLLoader loader;
@@ -119,13 +119,12 @@ public class CustomerSearchController extends SocketConnect implements Initializ
                             loader = new FXMLLoader(getClass().getResource("Login.fxml"));
                             root = loader.load();
                             LoginController loginController = loader.<LoginController>getController();
-                            storeVO = deviceInfoXmlParse.parseXML();
+
                             loginController.setStoreVO(storeVO);
                         } else {
                             loader = new FXMLLoader(getClass().getResource("AdminLogin.fxml"));
                             root = loader.load();
                             AdminLoginController adminLoginController = loader.<AdminLoginController>getController();
-                            storeVO = deviceInfoXmlParse.parseXML();
                             adminLoginController.setStoreVO(storeVO);
                         }
                         stage.setTitle("매장 로그인");

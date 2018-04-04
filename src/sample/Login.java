@@ -30,21 +30,6 @@ import java.net.URISyntaxException;
 
 public class Login extends Application  {
 
-//    @Override
-//    public void start(Stage primaryStage) {
-//        try {
-//            Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-//            Scene scene = new Scene(root, 400, 400);
-//            scene.getStylesheets().add(getClass().getResource("sample.css").toExternalForm());
-//            primaryStage.setTitle("Scene Change");
-//            primaryStage.setScene(scene);
-//            primaryStage.show();
-//        } catch (Exception e) {
-//            System.out.println("FXML File Not Found >>" + e);
-//            e.printStackTrace();
-//        }
-//    }
-
     Stage stage;
 
     SocketConnect socketConnect = new SocketConnect();

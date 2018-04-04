@@ -158,7 +158,7 @@ public class DeviceInfoXmlParse {
                 case "pointVipGoal" :
 
                     System.out.println("pointVipGoal set");
-                    storeVO.setStampVipGoal(Integer.parseInt(cnl.item(i).getTextContent()));
+                    storeVO.setPointVipGoal(Integer.parseInt(cnl.item(i).getTextContent()));
                     break;
 
                 case "pointVipRate" :
@@ -202,13 +202,13 @@ public class DeviceInfoXmlParse {
                 case "wideManagerRole" :
 
                     System.out.println("wideManagerRole set");
-                    storeVO.setContractStatusCode(cnl.item(i).getTextContent());
+                    storeVO.setWideManagerRole(cnl.item(i).getTextContent());
                     break;
 
                 case "benefitCouponNo" :
 
                     System.out.println("benefitCouponNo set");
-                    storeVO.setContractStatusCode(cnl.item(i).getTextContent());
+                    storeVO.setBenefitCouponNo(Integer.parseInt(cnl.item(i).getTextContent()));
                     break;
 
             }
